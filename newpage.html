@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			.container{
+				width: 350px;
+				height:400px;
+				border-radius: 5px;
+				border: none;
+				box-shadow: 0 0 9px white;
+				background-color: white;
+				text-align: center;
+				margin: 0 auto;
+				margin-top: 100px;
+				
+			}
+			.container h1{
+				padding: 20px auto;
+				color:#1E9FFF;
+				font-size: 26px;
+				margin-top:20px;
+				padding-top: 30px;
+			}
+			.shuru input{
+				border: 1px solid lightgray;
+				width: 300px;
+				height: 36px;
+				margin-left: 22px;
+				
+			}
+			.three input{
+				width: 180px;
+				height: 40px;
+			}
+			.three{
+				  display: flex;          /*  设置为 Flex 容器 */
+				  align-items: center;  /*  垂直居中对齐 */
+				  gap: 20px; 
+				  flex-direction: row;
+				  margin-top: 10px;
+			}
+			.mima{
+				text-align: left;
+				margin-left: 22px;
+				margin-top:15px;
+				color:gray;
+			}
+			.but,.shuru input{
+				/* margin-top: 15px; */
+				display: flex;
+				align-items: left;
+				border-radius: 5px;
+			}
+			.two{
+				margin-top: 10px;
+			}
+			.but{
+				background-color:#1E9FFF;
+				color: white;
+				font-size: 20px;
+				border: none;
+				height: 40px;
+				width:300px;
+				margin-left:20px;
+				text-align: center;
+				justify-content: center;
+				margin-top: 10px;
+			
+			}
+			p{
+				text-align: center;
+				font-size: 14px;
+				color: gray;
+				margin-top: 6px;
+			}
+			
+		</style>
+	</head>
+	<body bgcolor="#1E9FFF">
+		<div class="container">
+			
+			<h1>UOLab联合开放实验室<br>管理平台</h1>
+			
+			<div class="shuru">
+				 <input type="text" placeholder="用户名或者邮箱">
+			</div>    
+			     
+		    <div class="shuru two">
+			     <input type="password" placeholder="密码">
+		     </div>     			
+			<div class="shuru three">
+				<input type="text" placeholder="图形验证码"/>
+				<img src="img/yanzheng.png"  alt="验证码" style="height:40px;width:100px;vertical-align: middle;">
+			</div>
+			<div class="mima">
+				<input type="checkbox"/>记住密码
+			</div>
+			
+			<button class="but">登&nbsp;录</button>		
+	        <p>开发者：陈晓钰 中北大学 软件学院</p>
+			
+		</div>
+	</body>
+</html>
