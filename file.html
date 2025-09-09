@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>学生注册表单</title>
+		<script>
+			function checkForm(){
+				let flag=true;
+				//“空”是名字最基本的无效状态，而“格式错误”是手机号常见的无效状态。
+				//验证姓名
+				const uname=document.getElementById("username").value.trim();
+				if(uname===""){
+					document.getElementById("username").style="border:1px solid red";
+					flag=false;
+				}else{
+					document.getElementById("username").style="border:1px solid #E4E4E4";
+				}
+				//验证手机号
+				const phone=document.getElementById("phone").value.trim();
+				//\d 是 [0-9] 的简写
+				const phoneReg=/^\d{11}$/;
+				if(!phoneReg.test(phone)){
+					document.getElementById("phone").style="border:1px solid red";
+					flag=false;
+				}else{
+					document.getElementById("phone").style="border:1px solid #E4E4E4";
+				}
+				//验证密码（至少6位，含字母+数字）
+				const psw=document.getElementById("userpsw").value;
+				//正则表达式/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/
+				//(?= ... ): 表示“后面跟着...” 并且不会消耗任何字符。
+				//.*: 匹配任意字符（除了换行符）零次或多次。
+				const pswReg=/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+				if(!pswReg.test(psw)){
+					document.getElementById("userpsw").style="border:1px solid red";
+					flag=false;
+				}else{
+					document.getElementById("userpsw").style="border:1px solid #E4E4E4";
+				}
+				// 验证确认密码（与原密码一致）
+				const repsw=document.getElementById("repsw").value;
+				if(repsw!==psw){
+					document.getElementById("repsw").style="border:1px solid red";
+					alert("确认密码与原密码不一致，请重新输入！");
+					flag=false;
+				}else{
+					document.getElementById("repsw").style="border:1px solid #E4E4E4";
+				}
+				// 验证邮箱（若输入则需符合格式）
+				const emailInput=document.getElementById("email");
+				//\w: 匹配任何单词字符:大小写字母,数字,下划线
+				//+: 量词，表示前面的字符集 [\w-] 至少出现一次。
+				//*: 量词，表示前面的分组 (\.[\w-]+) 可以出现零次或多次。
+				//\.: 匹配字面字符 . (点)，需要用反斜杠 \ 进行转义，因为 . 在正则表达式中有特殊含义（匹配任意字符）。
+				//用户名可以包含多个由点分隔的部分，例如 name.surname, first.middle.last
+				const email=emailInput.value.trim();
+				const emailReg=/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+				if(email!==""){
+					if(!emailReg.test(email)){
+						emailInput.style="border:1px solid red";
+						alert("邮箱格式不正确，示例：student@school.com");
+						flag=false;
+					}else{
+						emailInput.style="border:1px solid #E4E4E4";
+					}
+				}else{
+					emailInput.style = "border: 1px solid #E4E4E4";
+				}
+			
+				return flag;
+			}
+		</script>
+		<style>
+			
+			body{
+				font-family: 'Courier New', Courier, monospace;
+				max-width: 500px;
+				margin: 0 auto;
+				padding: 20px;
+				
+			}
+			.container {
+							background-color: #ffffff; /* 容器背景为白色 */
+							padding: 30px; /* 容器内边距 */
+							border-radius: 8px; /* 容器圆角 */
+							box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+							max-width: 500px; /* 限制容器的最大宽度 */
+							margin: 30px auto; /* 上下边距30px，左右自动居中 */
+			}
+			h2{
+				text-align: center;
+				margin-bottom: 30px;
+			}
+			.form-group{
+				margin-bottom: 20px;
+			}
+			label{
+				display: block;
+				margin-bottom: 8px;
+			}
+			input{
+				width:100%;
+				padding:10px;
+				border:1px solid #E4E4E4;
+				border-radius: 5px;
+				font-size:16px;
+			}
+			button{
+				width: 100%;
+				padding: 12px;
+				background-color: #007bff;
+				color: white;
+				border: none;
+				border-radius: 4px;
+				font-size: 18px;
+			}
+			 button:hover {
+			    background-color: #0056b3;
+			}
+			 .required {
+			    color: red;
+			    font-size: 14px;
+			    margin-left: 3px;
+			 }
+		</style>
+	</head>
+	<body class="container">
+		<h2>学生注册表单</h2>
+		<form onsubmit="return checkForm()" action="">
+			<div class="form-group">
+				<label>姓名<span class="required">*</span></label>
+				<input type="text" id="username" placeholder="请输入您的姓名" required>
+			</div>
+			<div class="form-group">
+				<label>手机号<span class="required">*</span></label>
+				<input type="tel" id="phone" placeholder="请输入11位手机号" required>
+			</div>
+			<div class="form-group">
+				<label>邮箱</label>
+				<input type="email" id="email" placeholder="可选，如：student@school.com">				
+			</div>
+			<div class="form-group">
+				<label>密码<span class="required">*</span></label>
+				<input type="password" id="userpsw" placeholder="至少6位，包含字母和数字"required>
+			</div>
+			<div class="form-group">
+				<label>确认密码<span class="required">*</span></label>
+				<input type="password" id="repsw" placeholder="请再次输入密码"required>
+			</div>
+			<button type="submit">注册</button>
+		</form>
+	</body>
+</html>
