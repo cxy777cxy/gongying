@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>婴幼儿销售管理平台-登录</title>
+    <link rel="stylesheet" href="./lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="./css/layuimini.css" media="all">
+    <style>
+        /* 保持原有样式不变 */
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: url('images/壁纸.jpg') no-repeat center center fixed;
+            background-size: cover;
+			overflow: hidden; /* 防止气泡溢出导致滚动条 */
+        }
+        .container {
+            width: 420px;
+            height: 520px;
+            border-radius: 5px;
+            border: none;
+             box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* 增强白色阴影，适配背景 */
+            background-color: white;
+            text-align: center;
+            margin: 0 auto;
+            margin-top: 100px;
+			z-index: 1; /* 登录框层级高于背景 */
+        }
+        .container h1 {
+            padding: 20px auto;
+            color: #F567CFFF;
+            font-size: 26px;
+            margin-top: 40px;
+            padding-top: 20px;
+            font-weight:bold;
+        }
+        .layui-input-block {
+            text-align: left;
+            margin-left: 22px;
+            color: gray;
+        }
+        .mimamima {
+            display: flex;
+            justify-content: space-between;
+            margin-right: 20px;
+            height: 40px;
+            text-align: center;
+        }
+        .but {
+            background-color: #F567CFFF;
+            color: white;
+            font-size: 20px;
+            border: none;
+            height: 40px;
+            width: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto 15px;
+            cursor: pointer;
+        }
+        .error-message {
+            font-size: 12px;
+            color: red;
+            text-align: left;
+            height: 16px;
+            padding-left: 20px;
+        }
+        p {
+            text-align: center;
+            font-size: 14px;
+            color: gray;
+            margin-top: 6px;
+        }
+        #logo a i {
+            font-size: 40px;
+            margin: 0 5px;
+        }
+        .layui-input-wrap {
+            position: relative;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .layui-input-prefix {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        .layui-input {
+            padding-left: 38px;
+            height: 42px;
+        }
+        .forget-pwd {
+            display: flex;
+            align-items: center;
+        }
+        .layui-input.valid {
+            border-color: #5FB878;
+        }
+        .layui-input.error {
+            border-color: red;
+        }
+        .layui-form-item{
+            margin-bottom: 0;
+        }
+        .shoujihao{
+            display: flex;
+            justify-content: space-between;
+        }
+		#bubbles-bg {
+		            position: fixed;
+		            top: 0;
+		            left: 0;
+		            width: 100%;
+		            height: 100%;
+		            z-index: -1; /* 背景层级最低 */
+		            pointer-events: none; /* 避免遮挡点击事件 */
+		        }
+    </style>
+</head>
+<body>
+	<div id="bubbles-bg"></div>
+    <form class="layui-form" onsubmit="return checkForm()" action="#" method="post">
+        <div class="container">
+            <h1>婴幼儿产品销售<br>管理平台</h1>
+
+            <!-- 1. 昵称 -->
+            <div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-username"></i>
+                    </div>
+                    <input type="text" id="username" name="nickname" value="" lay-verify="required" 
+                           placeholder="昵称" autocomplete="off" class="layui-input" 
+                           lay-affix="clear" onblur="checkUsername()">
+                </div>
+                <div class="error-message" id="usernameError"></div>
+            </div>
+
+            <!-- 2. 手机号 -->
+            <div class="shoujihao">
+                <div class="layui-form-item">
+                    <div class="layui-input-wrap">
+                        <div class="layui-input-prefix">
+                            <i class="layui-icon layui-icon-cellphone"></i>
+                        </div>
+                        <input type="text" name="cellphone" value="" lay-verify="required|phone" 
+                               id="phone" placeholder="请填写手机号" lay-reqtext="请填写手机号" 
+                               autocomplete="off" class="layui-input" 
+                               onblur="checkPhone()">
+                    </div>
+                    <div class="error-message" id="phoneError"></div>
+                </div>	
+                <div class="layui-form-item">
+                    <div class="layui-input-wrap">
+                        <div style="margin-left: 11px;">
+                            <!-- 注意：这里添加了id="getVercodeBtn"用于绑定事件 -->
+                            <button type="button" id="getVercodeBtn" class="layui-btn layui-btn-fluid layui-btn-primary">
+                                获取验证码
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 验证码 -->
+            <div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-vercode"></i>
+                    </div>
+                    <input type="text" id="vercode" name="vercode" value="" lay-verify="required" 
+                           placeholder="验证码" lay-reqtext="请填写验证码" autocomplete="off" 
+                           class="layui-input" onblur="checkVercode()">
+                </div>
+                <div class="error-message" id="vercodeError"></div>
+            </div>
+
+            <!-- 4. 密码<div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-password"></i>
+                    </div>
+                    <input type="password" id="userpsw" name="password" value="" lay-verify="required" 
+                           placeholder="密码至少6位，需同时包含字母和数字
+" autocomplete="off" class="layui-input" 
+                           lay-affix="eye" onblur="checkPassword()">
+                </div>
+                <div class="error-message" id="pswError"></div>
+            </div> -->
+            
+
+            <!-- 5. 确认密码<div class="layui-form-item">
+                <div class="layui-input-wrap">
+                    <div class="layui-input-prefix">
+                        <i class="layui-icon layui-icon-password"></i>
+                    </div>
+                    <input type="password" id="repsw" name="confirmPassword" value="" lay-verify="required" 
+                           placeholder="确认密码" autocomplete="off" class="layui-input" 
+                           lay-affix="eye" onblur="checkConfirmPassword()">
+                </div>
+                <div class="error-message" id="repswError"></div>
+            </div> -->
+            
+
+            <div class="mimamima">
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="rememberPwd" lay-skin="primary" title="记住密码">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block forget-pwd">
+                        <a href="">忘记密码？</a>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="layui-btn but" lay-filter="loginBtn">登&nbsp;录</button>
+
+            <div class="layui-form-item demo-login-other">
+                <label>社交账号登录</label>
+                <span style="padding: 0 21px 0 6px;" id="logo">
+                    <a href="javascript:;"><i class="layui-icon layui-icon-login-qq" style="color: #3492ed;"></i></a>
+                    <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat" style="color: #4daf29;"></i></a>
+                    <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo" style="color: #cf1900;"></i></a>
+                </span>
+                <a href="./logintwo.html">注册帐号</a>
+            </div>
+            <p>开发者：陈晓钰 中北大学 软件学院</p>
+        </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="./lib/layui-v2.6.3/layui.js"></script>
+        <script>
+            // 一、初始化气泡背景动画 - 母婴友好色（浅粉、浅蓝绿）
+            document.addEventListener('DOMContentLoaded', function() {
+                particlesJS("bubbles-bg", {
+                    particles: {
+                        number: { 
+                            value: 35, // 气泡数量（适中不拥挤）
+                            density: { enable: true, value_area: 800 } // 密度控制
+                        },
+                        color: { 
+                            value: ["#ff6b9a", "#a3d9c3", "#f0c0d9"] // 浅粉、浅蓝绿、浅藕粉
+                        },
+                        shape: { 
+                            type: "circle", // 圆形气泡（柔和）
+                            stroke: { width: 0, color: "#fff" } // 无描边
+                        },
+                        opacity: {
+                            value: 0.5, // 基础透明度
+                            random: true, // 随机透明度（层次感）
+                            anim: { 
+                                enable: true, 
+                                speed: 1, 
+                                opacity_min: 0.2 // 最低透明度
+                            }
+                        },
+                        size: {
+                            value: 8, // 基础大小
+                            random: true, // 随机大小
+                            anim: { 
+                                enable: true, 
+                                speed: 2, 
+                                size_min: 3 // 最小大小
+                            }
+                        },
+                        move: {
+                            enable: true,
+                            speed: 0.5, // 缓慢上升（不刺眼）
+                            direction: "top", // 统一向上移动
+                            random: true, // 轻微随机偏移（自然）
+                            straight: false, // 不直线移动
+                            bounce: false, // 不反弹
+                            out_mode: "out" // 超出屏幕后消失
+                        }
+                    },
+                    interactivity: { 
+                        detect_on: "canvas", 
+                        events: { 
+                            onhover: { enable: false }, // 关闭hover交互（避免干扰）
+                            onclick: { enable: false }, // 关闭点击交互
+                            resize: true // 窗口缩放时自适应
+                        }
+                    },
+                    retina_detect: true // 高清屏幕适配
+                });
+            });
+        layui.use(['form', 'layer', 'jquery'], function() {
+            var $ = layui.$;
+            var form = layui.form;
+            var layer = layui.layer;
+
+            // 自定义验证规则
+           
+			form.verify({
+              /*  confirmPassword: function(value, item) {
+                    var passwordValue = $('#userpsw').val();
+                    if (value !== passwordValue) {
+                        return '两次密码输入不一致';
+                    }
+                },*/
+                phone: function(value) {
+                    var phoneReg = /^1\d{10}$/;
+                    if (!phoneReg.test(value)) {
+                        return '请输入有效的11位手机号';
+                    }
+                }
+            });
+ 
+            // 关键修改：用jQuery的on方法替换util.on，绑定获取验证码按钮事件
+            $('#getVercodeBtn').on('click', function() {
+                var phone = $('#phone').val().trim();
+                var phoneReg = /^1\d{10}$/;
+                if (!phoneReg.test(phone)) {
+                    $('#phone').addClass('error');
+                    $('#phoneError').text('请先输入有效的手机号');
+                    return;
+                }
+                // 模拟发送验证码
+                layer.msg('验证码已发送至：' + phone.substring(0,3) + '****' + phone.substring(7));
+                // 倒计时
+                var btn = $(this);
+                var count = 60;
+                btn.prop('disabled', true).text(count + 's后重新获取');
+                var timer = setInterval(function() {
+                    count--;
+                    btn.text(count + 's后重新获取');
+                    if (count <= 0) {
+                        clearInterval(timer);
+                        btn.prop('disabled', false).text('获取验证码');
+                    }
+                }, 1000);
+            });
+        });
+    </script>
+
+    <script>
+        // 所有校验函数保持不变
+        function checkUsername() {
+            const username = document.getElementById("username").value.trim();
+            const errorEl = document.getElementById("usernameError");
+            const inputEl = document.getElementById("username");
+            if (username === "") {
+                inputEl.className = "layui-input error";
+                errorEl.textContent = "请输入昵称";
+                return false;
+            } else {
+                inputEl.className = "layui-input valid";
+                errorEl.textContent = "";
+                return true;
+            }
+        }
+
+        function checkPhone() {
+            const phone = document.getElementById("phone").value.trim();
+            const phoneReg = /^1\d{10}$/;
+            const errorEl = document.getElementById("phoneError");
+            const inputEl = document.getElementById("phone");
+            if (phone === "") {
+                inputEl.className = "layui-input error";
+                errorEl.textContent = "请填写手机号";
+                return false;
+            } else if (!phoneReg.test(phone)) {
+                inputEl.className = "layui-input error";
+                errorEl.textContent = "请输入有效的11位手机号";
+                return false;
+            } else {
+                inputEl.className = "layui-input valid";
+                errorEl.textContent = "";
+                return true;
+            }
+        }
+
+        function checkVercode() {
+            const vercode = document.getElementById("vercode").value.trim();
+            const errorEl = document.getElementById("vercodeError");
+            const inputEl = document.getElementById("vercode");
+            if (vercode === "") {
+                inputEl.className = "layui-input error";
+                errorEl.textContent = "请填写验证码";
+                return false;
+            } else {
+                inputEl.className = "layui-input valid";
+                errorEl.textContent = "";
+                return true;
+            }
+        }
+/*
+        function checkPassword() {
+            const psw = document.getElementById("userpsw").value;
+            const pswReg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+            const errorEl = document.getElementById("pswError");
+            const inputEl = document.getElementById("userpsw");
+            if (!pswReg.test(psw)) {
+                inputEl.className = "layui-input error";
+                errorEl.textContent = "密码至少6位，需同时包含字母和数字";
+                return false;
+            } else {
+                inputEl.className = "layui-input valid";
+                errorEl.textContent = "";
+                checkConfirmPassword();
+                return true;
+            }
+        }*/
+/*
+        function checkConfirmPassword() {
+            const psw = document.getElementById("userpsw").value;
+            const repsw = document.getElementById("repsw").value;
+            const errorEl = document.getElementById("repswError");
+            const inputEl = document.getElementById("repsw");
+            if (repsw === "") {
+                inputEl.className = "layui-input error";
+                errorEl.textContent = "请再次输入密码";
+                return false;
+            } else if (repsw !== psw) {
+                inputEl.className = "layui-input error";
+                errorEl.textContent = "两次输入的密码不一致，请重新输入";
+                return false;
+            } else {
+                inputEl.className = "layui-input valid";
+                errorEl.textContent = "";
+                return true;
+            }
+        }
+*/
+        // 登录跳转逻辑保持不变
+        function checkForm() {
+            const isUsernameValid = checkUsername();
+            const isPhoneValid = checkPhone();
+            const isVercodeValid = checkVercode();
+            /*const isPswValid = checkPassword();*/
+            /*const isRepswValid = checkConfirmPassword();*/
+
+            if (isUsernameValid && isPhoneValid && isVercodeValid) {
+                layui.use('layer', function() {
+                    var layer = layui.layer;
+                    layer.msg('登录成功，正在进入系统...', {
+                        icon: 1,
+                        time: 1500
+                    }, function() {
+                        window.location.href = "index.html";
+                    });
+                });
+                return false;
+            } else {
+                const firstError = document.querySelector(".error");
+                if (firstError) firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
