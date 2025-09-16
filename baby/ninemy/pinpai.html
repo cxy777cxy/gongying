@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>母婴销售系统 - 产品介绍</title>
+		<style>
+			/* 全局样式重置与基础设置 */
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: "Microsoft YaHei", Arial, sans-serif;
+			}
+
+			/* 浅粉色背景与内容居中容器 */
+			body {
+				background-color: #ffe6ee;
+				/* 柔和浅粉色，避免刺眼 */
+				min-height: 100vh;
+				/* 让背景占满整个视口高度 */
+				display: flex;
+				justify-content: center;
+				/* 水平居中 */
+				padding: 40px 20px;
+				/* 上下内边距，左右适配小屏幕 */
+			}
+
+			/* 内容主体容器 - 控制宽度与内部间距 */
+			.content-container {
+				width: 100%;
+				max-width: 800px;
+				/* 限制最大宽度，避免大屏幕下内容过宽 */
+				background-color: #fff;
+				/* 白色内容区，增强对比度 */
+				padding: 40px 30px;
+				border-radius: 12px;
+				/* 圆角设计，更显柔和 */
+				box-shadow: 0 4px 15px rgba(230, 150, 180, 0.15);
+				/* 轻微阴影，提升层次感 */
+			}
+
+			/* 产品介绍标题样式 */
+			.product-title {
+				font-size: 24px;
+				color: #e63946;
+				/* 母婴类常用柔和红色，突出主题 */
+				text-align: center;
+				margin-bottom: 20px;
+				font-weight: 600;
+			}
+
+			/* 产品介绍文本样式 */
+			.product-desc {
+				font-size: 16px;
+				color: #333;
+				line-height: 1.8;
+				/* 行高优化，提升阅读体验 */
+				margin-bottom: 30px;
+				text-align: justify;
+				/* 文本两端对齐，更显规整 */
+			}
+
+			/* 视频容器样式 */
+			.video-container {
+				width: 100%;
+				border-radius: 8px;
+				overflow: hidden;
+				/* 隐藏视频默认边框，适配圆角 */
+				box-shadow: 0 2px 10px rgba(230, 150, 180, 0.1);
+			}
+
+			/* 视频样式优化 */
+			video {
+				width: 100%;
+				height: auto;
+				/* 保持视频宽高比，避免拉伸变形 */
+				display: block;
+			}
+
+			p {
+				text-indent: 2em;
+			}
+
+		</style>
+	</head>
+	<body>
+		<!-- 内容主体容器，统一控制居中与样式 -->
+		<div class="content-container">
+			<!-- 母婴销售系统产品介绍文段 -->
+			<h2 class="product-title">母婴销售系统 - 产品介绍</h2>
+			<div class="product-desc">
+				<p>母婴销售系统是专为母婴行业打造的一体化零售管理解决方案，涵盖商品管理、会员运营、订单处理、库存监控四大核心功能。系统支持奶粉、纸尿裤、童装、玩具等全品类母婴商品分类管理，可自动同步线上线下库存，避免缺货或积压问题；针对母婴用户群体，提供会员成长体系、生日福利、育儿知识推送等个性化服务，提升用户粘性；同时内置数据分析模块，实时统计热销商品、会员消费习惯，为店铺运营决策提供数据支撑，助力母婴商家降本增效，打造专业、高效的零售体验。
+				</p>
+			</div>
+
+			<!-- 视频展示区域 -->
+			<div class="video-container">
+				<video controls poster="../../js/pinpai-cover.jpg"> <!-- 可选：添加视频封面图，提升加载体验 -->
+					<source src="../../js/pinpai.mp4" type="video/mp4">
+					您的浏览器不支持video标签，请升级浏览器后查看。
+				</video>
+			</div>
+		</div>
+	
+	</body>
+</html>

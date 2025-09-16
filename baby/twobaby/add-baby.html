@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../css/layuimini.css" media="all">
+		<style>
+			body {
+			    background-color: #f9f5f7;
+			    padding: 20px;
+			}
+			.page-title {
+				color: #ff6b9a;
+				font-size: 20px;
+				margin-bottom: 20px;
+				font-weight: bold;
+			}
+
+			.required-mark::before {
+				/* 星号内容 */
+				content: "*";
+				/* 红色 */
+				color: #ff0000;
+				/* 与文字保持一点距离 */
+				margin-right: 4px;
+				/* 星号加粗 */
+				font-weight: bold;
+
+			}
+
+			.layui-form-label {
+				margin-left: 30px;
+				width: 150px;
+				/* 加宽label，足够放下长标题（如“近期成长变化”） */
+				min-width: 150px;
+				/* 防止宽度被压缩 */
+				text-align: left;
+				padding-right: 0;
+
+				line-height: 38px !important;
+				/* 与输入框高度对齐 */
+			}
+
+			.layui-form-item {
+				margin-bottom: 6px;
+				display: flex;
+				/* 确保label和输入区水平排列 */
+				align-items: flex-start;
+				/* 顶部对齐，避免内容错位 */
+			}
+
+			.layui-input-block {
+				padding-top: 9px;
+				width: 70%;
+				text-align: left;
+				margin-left: 30px;
+			}
+
+			.form-tips {
+				color: lightpink;
+				font-size: 2px;
+				margin-top: 5px;
+				line-height: 1.5;
+			}
+
+			.form-container {
+				background: white;
+				padding: 25px;
+				margin-left: 30px;
+				margin-right: 30px;
+				border-radius: 10px;
+				box-shadow: 0 2px 10px rgba(255, 107, 154, 0.1);
+			}
+
+			
+			.form-section-title {
+				color: #ff6b9a;
+				margin-bottom: 15px;
+				font-weight: 600;
+				font-size: 16px;
+				padding-left: 5px;
+				border-left: 3px solid #ff6b9a;
+			}
+			.form-section {
+			    margin-bottom: 30px;
+			    padding-bottom: 20px;
+			    border-bottom: 1px dashed #ffccd5;
+			}
+			.layui-btn-normal {
+			    background-color: #ff6b9a;
+			    border-color: #ff6b9a;
+			}
+			.layui-btn-primary {
+			    border-color: #ffccd5;
+			}
+			.layui-btn-normal:hover {
+			    background-color: #ff4988;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 页面标题 -->
+		<div class="page-title">
+			<i class="layui-icon layui-icon-baby"></i> 宝宝基本信息
+		</div>
+		<!-- 表单容器 -->
+		<div class="form-container">
+			<form class="layui-form" lay-filter="babyInfoForm">
+				<!-- 隐藏域：宝宝ID -->
+				<input type="hidden" name="babyId" value="">
+
+				<!-- 基本信息 section -->
+				<div class="form-section">
+					<div class="form-section-title">基本信息</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label required-mark">宝宝姓名:</label>
+						<div class="layui-input-block">
+							<input type="text" name="babyName" lay-verify="required" placeholder="请输入宝宝姓名"
+								autocomplete="off" class="layui-input">
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label required-mark">性别:</label>
+						<div class="layui-input-block radio-checkbox-block">
+							<input type="radio" name="gender" value="1" title="男" checked>
+							<input type="radio" name="gender" value="2" title="女">
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label required-mark">出生日期:</label>
+						<div class="layui-input-block">
+							<input type="text" name="birthday" lay-verify="required" placeholder="请选择出生日期"
+								autocomplete="off" class="layui-input" id="birthday">
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">宝宝月龄/年龄:</label>
+						<div class="layui-input-block">
+							<input type="text" name="age" placeholder="系统将自动计算" autocomplete="off" class="layui-input"
+								readonly>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label required-mark">生长发育阶段:</label>
+						<div class="layui-input-block">
+							<select name="growthStage" lay-verify="required">
+								<option value="">请选择生长发育阶段</option>
+								<option value="newborn">新生儿（0-28天）</option>
+								<option value="infant">婴儿（1-12月）</option>
+								<option value="toddler">幼儿（1-3岁）</option>
+								<option value="preschooler">学龄前儿童（3-6岁）</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<!-- 生长发育数据 section -->
+				<div class="form-section">
+					<div class="form-section-title">生长发育数据:</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label required-mark">身高（cm）:</label>
+						<div class="layui-input-block">
+							<input type="number" step="0.1" name="height" lay-verify="required|number"
+								placeholder="请输入身高，保留1位小数" autocomplete="off" class="layui-input">
+							<p class="form-tips" style="color: lightpink; font-size: 12px; margin-top: 5px; line-height: 1.5;">用于推荐合身的衣物、安全座椅等产品</p>
+							
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label required-mark">体重（kg）:</label>
+						<div class="layui-input-block">
+							<input type="number" step="0.1" name="weight" lay-verify="required|number"
+								placeholder="请输入体重，保留1位小数" autocomplete="off" class="layui-input">
+							<p class="form-tips" style="color: lightpink; font-size: 12px; margin-top: 5px; line-height: 1.5;">用于推荐对应体重段的纸尿裤、计算辅食量等</p>
+							
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<!-- 改进：选填文字与标题同行 -->
+						<label class="layui-form-label">头围（cm）<span class="optional-text">（选填）:</span></label>
+						<div class="layui-input-block">
+							<input type="number" step="0.1" name="headCircumference" lay-verify="number"
+								placeholder="请输入头围，保留1位小数" autocomplete="off" class="layui-input">
+							<p class="form-tips" style="color: lightpink; font-size: 12px; margin-top: 5px; line-height: 1.5;">用于推荐婴儿帽子、头盔类产品</p>
+							
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<!-- 改进：长标题+选填同行（label宽度足够放下） -->
+						<label class="layui-form-label">近期成长变化<span class="optional-text">（选填）:</span></label>
+						<div class="layui-input-block">
+							<textarea name="growthChanges" placeholder="如：近一个月长了3cm，学会了翻身等"
+								class="layui-textarea"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<!-- 健康医疗信息 section -->
+				<div class="form-section">
+					<div class="form-section-title">健康医疗信息</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">血型<span class="optional-text">（选填）:</span></label>
+						<div class="layui-input-block">
+							<select name="bloodType">
+								<option value="">请选择血型</option>
+								<option value="A">A型</option>
+								<option value="B">B型</option>
+								<option value="AB">AB型</option>
+								<option value="O">O型</option>
+								<option value="unknown">未测</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label required-mark">过敏史：</label>
+						<div class="layui-input-block">
+							<textarea name="allergies" lay-verify="required" placeholder="请填写宝宝过敏情况，如无请填无"
+								class="layui-textarea"></textarea>
+							<p class="form-tips" style="color: lightpink; font-size: 12px; margin-top: 5px; line-height: 1.5;">请务必如实填写，以便我们推荐合适的产品</p>
+							
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">慢性健康问题<span class="optional-text">（选填）:</span></label>
+						<div class="layui-input-block">
+							<textarea name="chronicHealthIssues" placeholder="如：轻度湿疹（需无香精产品）、乳糖不耐受等"
+								class="layui-textarea"></textarea>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">常用药物/禁忌<span class="optional-text">（选填）:</span></label>
+						<div class="layui-input-block">
+							<textarea name="medicationTaboo" placeholder="如：感冒时禁用XX成分药物"
+								class="layui-textarea"></textarea>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">疫苗接种记录<span class="optional-text">（选填）:</span></label>
+						<div class="layui-input-block">
+							<textarea name="vaccinationRecords" placeholder="格式参考：乙肝疫苗，2024-01-15，下次接种2024-04-15"
+								class="layui-textarea"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<!-- 喂养/护理偏好 section -->
+				<div class="form-section">
+					<div class="form-section-title">喂养/护理偏好:</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label required-mark">喂养方式</label>
+						<div class="layui-input-block">
+							<select name="feedingMethod" lay-verify="required">
+								<option value="">请选择喂养方式</option>
+								<option value="breastfeeding">母乳喂养</option>
+								<option value="formula">配方奶喂养</option>
+								<option value="mixed">混合喂养</option>
+								<option value="complementary">辅食喂养</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">辅食添加状态<span class="optional-text">（选填）：</span></label>
+						<div class="layui-input-block">
+							<select name="complementaryFoodStatus">
+								<option value="">请选择辅食添加状态</option>
+								<option value="notStarted">未添加</option>
+								<option value="initial">初添（高铁米糊）</option>
+								<option value="intermediate">进阶（蔬菜泥/肉泥）</option>
+								<option value="solid">固体食物（小面条/软饭）</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">日常护理重点<span class="optional-text">（选填）：</span></label>
+						<div class="layui-input-block radio-checkbox-block">
+							<input type="checkbox" name="careFocus" value="skin" title="皮肤护理">
+							<input type="checkbox" name="careFocus" value="oral" title="口腔护理">
+							<input type="checkbox" name="careFocus" value="walking" title="学步防护">
+							<input type="checkbox" name="careFocus" value="sleep" title="睡眠改善">
+							<input type="checkbox" name="careFocus" value="dental" title="乳牙保护">
+						</div>
+					</div>
+
+					<div class="layui-form-item">
+						<label class="layui-form-label">产品偏好/禁忌<span class="optional-text">（选填）：</span></label>
+						<div class="layui-input-block">
+							<textarea name="productPreferences" placeholder="如：偏好有机产品、不接受含蔗糖零食等"
+								class="layui-textarea"></textarea>
+						</div>
+					</div>
+				</div>
+
+				<!-- 操作按钮 -->
+				<div class="layui-form-item button">
+					<div class="layui-input-block" ">
+						<button class="layui-btn layui-btn-normal" lay-submit>保存信息</button>
+						<button type="button" class="layui-btn layui-btn-primary"
+							onclick="window.location.href='search-baby.html'">返回列表</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<script src="../../lib/layui-v2.6.3/layui.js"></script>
+		<script>
+			// 年选择器（选择入学年份），会用即可，具体实现此时不予关注
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				var initYear;
+				laydate.render({
+					elem: '#year', //开发中把这里的year换成自己的， 日期文本框的id
+					type: 'year', // 只显示年
+					/* ready和change函数是为了实现选择年份时不用点确定直接关闭  */
+					ready: function(date) { // 控件在打开时触发，回调返回一个参数：初始的日期时间对象
+						initYear = date.year;
+					},
+					change: function(value, date, endDate) { // 年月日时间被切换时都会触发。回调返回三个参数，分别代表：生成的值、日期时间对象、结束的日期时间对象
+						var selectYear = date.year;
+						var differ = selectYear - initYear;
+						if (differ != 15 && differ != -15) {
+							if ($(".layui-laydate").length) {
+								$("#year").val(value);
+								$(".layui-laydate").remove();
+							}
+						}
+						initYear = selectYear;
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

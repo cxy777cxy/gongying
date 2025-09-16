@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>库存预警管理 - 婴幼儿产品销售管理平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="icon" href="../../images/favicon.ico">
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css?v=2.0.4.2" media="all">
+    <link rel="stylesheet" href="../../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <style>
+		body {
+		            background-color: #f9f5f7;
+		            padding: 20px;
+		        }
+		        legend {
+		            color: #ff6b9a; /* 主色调：柔和粉色 */
+		            font-size: 20px;
+		            margin-bottom: 20px;
+		            font-weight: bold;
+		        }
+        .table-container {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .search-bar {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+        .warning {
+            color: #ff7d00; /* 预警文字颜色（橙色） */
+            font-weight: 500; /* 文字稍粗，提升辨识度 */
+        }
+        .danger {
+            color: #ff4d4f; /* 严重不足文字颜色（红色） */
+            font-weight: 500; /* 文字稍粗，提升辨识度 */
+        }
+        .layui-table th {
+            text-align: center;
+        }
+        /* 给状态图标加微小间距，优化视觉 */
+        .status-icon {
+            margin-right: 4px;
+        }
+		.layui-btn{
+			background-color: #ff6b9a;
+			        			    border-color: #ff6b9a;
+			 border-radius: 5px;
+		}
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend><i class="fa fa-exclamation-triangle"></i> 库存预警管理</legend>
+        </fieldset>
+        
+        <div class="search-bar">
+            <form class="layui-form" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">产品名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="productName" placeholder="请输入产品名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">预警级别</label>
+                        <div class="layui-input-inline">
+                            <select name="warningLevel">
+                                <option value="">全部</option>
+                                <option value="warning">预警</option>
+                                <option value="danger">严重不足</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">仓库</label>
+                        <div class="layui-input-inline">
+                            <select name="warehouse">
+                                <option value="">全部</option>
+                                <option value="主仓库A区">主仓库A区</option>
+                                <option value="主仓库B区">主仓库B区</option>
+                                <option value="副仓库1号">副仓库1号</option>
+                                <option value="副仓库2号">副仓库2号</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="layui-btn" lay-submit lay-filter="search"><i class="fa fa-search"></i> 搜索</button>
+                    <button type="reset" class="layui-btn layui-btn-primary"><i class="fa fa-refresh"></i> 重置</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="layui-btn-group" style="margin-bottom: 15px;margin-right: 15px;">
+            <button class="layui-btn" id="refreshData"><i class="fa fa-refresh"></i> 刷新数据</button>
+            <button class="layui-btn" id="exportExcel"><i class="fa fa-download"></i> 导出报表</button>
+            <button class="layui-btn" id="batchHandle"><i class="fa fa-cog"></i> 批量处理</button>
+        </div>
+        
+        <table class="layui-table" lay-size="sm" lay-filter="inventoryTable">
+            <thead>
+                <tr>
+                    <th style="width: 40px;"><input type="checkbox" lay-skin="primary" lay-filter="checkAll"></th>
+                    <th>ID</th>
+                    <th>产品名称</th>
+                    <th>规格型号</th>
+                    <th>单位</th>
+                    <th>当前库存</th>
+                    <th>预警数量</th>
+                    <th>库存状态</th>
+                    <th>仓库位置</th>
+                    <th>最后更新时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" lay-skin="primary"></td>
+                    <td>1001</td>
+                    <td>婴儿奶粉（0-6个月）</td>
+                    <td>900g/罐</td>
+                    <td>罐</td>
+                    <td>25</td>
+                    <td>30</td>
+                    <td><span class="warning"><i class="fa fa-exclamation-circle status-icon"></i> 预警</span></td>
+                    <td>主仓库A区</td>
+                    <td>2023-11-10 14:30:22</td>
+                    <td>
+                        <button class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 补货</button>
+                        <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="detail"><i class="fa fa-eye"></i> 详情</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" lay-skin="primary"></td>
+                    <td>1002</td>
+                    <td>婴儿纸尿裤（M码）</td>
+                    <td>60片/包</td>
+                    <td>包</td>
+                    <td>10</td>
+                    <td>20</td>
+                    <td><span class="danger"><i class="fa fa-exclamation-triangle status-icon"></i> 严重不足</span></td>
+                    <td>主仓库B区</td>
+                    <td>2023-11-11 09:15:47</td>
+                    <td>
+                        <button class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 补货</button>
+                        <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="detail"><i class="fa fa-eye"></i> 详情</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" lay-skin="primary"></td>
+                    <td>1003</td>
+                    <td>婴儿湿巾（80抽）</td>
+                    <td>80抽/包</td>
+                    <td>包</td>
+                    <td>5</td>
+                    <td>15</td>
+                    <td><span class="danger"><i class="fa fa-exclamation-triangle status-icon"></i> 严重不足</span></td>
+                    <td>副仓库1号</td>
+                    <td>2023-11-11 11:23:16</td>
+                    <td>
+                        <button class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 补货</button>
+                        <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="detail"><i class="fa fa-eye"></i> 详情</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" lay-skin="primary"></td>
+                    <td>1004</td>
+                    <td>婴儿沐浴露（200ml）</td>
+                    <td>200ml/瓶</td>
+                    <td>瓶</td>
+                    <td>18</td>
+                    <td>25</td>
+                    <td><span class="warning"><i class="fa fa-exclamation-circle status-icon"></i> 预警</span></td>
+                    <td>副仓库2号</td>
+                    <td>2023-11-09 16:45:32</td>
+                    <td>
+                        <button class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 补货</button>
+                        <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="detail"><i class="fa fa-eye"></i> 详情</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="layui-box layui-laypage layui-laypage-default" id="pagination">
+            <a href="javascript:;" class="layui-laypage-prev layui-disabled">上一页</a>
+            <span class="layui-laypage-curr"><em class="layui-laypage-em"></em><em>1</em></span>
+            <a href="javascript:;">2</a>
+            <a href="javascript:;">3</a>
+            <a href="javascript:;" class="layui-laypage-next">下一页</a>
+            <span class="layui-laypage-count">共 4 条</span>
+        </div>
+    </div>
+
+    <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'layer', 'laypage'], function() {
+            var form = layui.form,
+                layer = layui.layer,
+                laypage = layui.laypage;
+            
+            // 全选/取消全选
+            form.on('checkbox(checkAll)', function(data) {
+                var checked = data.elem.checked;
+                var cbs = document.querySelectorAll('tbody [type="checkbox"]');
+                cbs.forEach(function(cb) {
+                    cb.checked = checked;
+                });
+                form.render('checkbox');
+            });
+            
+            // 搜索
+            form.on('submit(search)', function(data) {
+                console.log('搜索条件：', data.field);
+                layer.msg('正在搜索库存预警信息...', {icon: 16, time: 1000});
+                return false;
+            });
+            
+
+            
+
+    </script>
+</body>
+</html>

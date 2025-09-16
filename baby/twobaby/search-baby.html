@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>查询宝宝信息 - 婴幼儿产品销售管理系统</title>
+		<link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../css/layuimini.css" media="all">
+		<style>
+			body {
+				background-color: #f9f5f7;
+				padding: 20px;
+			}
+
+			/* 页面标题样式 */
+			.page-title {
+				color: #ff6b9a;
+				font-size: 20px;
+				margin-bottom: 20px;
+				font-weight: bold;
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
+
+			/* 搜索区容器 */
+			.search-container {
+				background: white;
+				padding: 20px;
+				border-radius: 10px;
+				box-shadow: 0 2px 10px rgba(255, 107, 154, 0.1);
+				margin-bottom: 20px;
+			}
+
+			/* 表格容器 */
+			.table-container {
+				background: white;
+				padding: 20px;
+				border-radius: 10px;
+				box-shadow: 0 2px 10px rgba(255, 107, 154, 0.1);
+			}
+
+			/* 按钮样式统一 */
+			.layui-btn-normal {
+				background-color: #ff6b9a;
+				border-color: #ff6b9a;
+			}
+
+			.layui-btn-normal:hover {
+				background-color: #ff4988;
+			}
+
+			.layui-btn-primary {
+				border-color: #ffccd5;
+				color: #666;
+			}
+
+			.layui-btn-primary:hover {
+				background-color: #fff0f5;
+			}
+
+			/* 搜索区表单布局 */
+			.search-form .layui-form-item {
+				margin-bottom: 15px;
+				display: flex;
+				align-items: center;
+			}
+
+			.search-form .layui-form-label {
+				width: 110px !important;
+				min-width: 110px !important;
+				padding-right: 10px;
+				box-sizing: border-box;
+			}
+
+			.search-form .layui-input-block {
+				margin-left: 120px !important;
+			}
+
+			/* 状态标签样式 */
+			.status-tag {
+				display: inline-block;
+				padding: 2px 8px;
+				border-radius: 12px;
+				font-size: 12px;
+			}
+
+			.status-normal {
+				background-color: #e8f5e9;
+				color: #4caf50;
+			}
+
+			.status-disabled {
+				background-color: #ffebee;
+				color: #f44336;
+			}
+
+			.layui-input-block {
+				margin-left: 10px;
+				text-align: left;
+				margin-left: 10px;
+			}
+
+			/* 工具栏按钮间距 */
+			.layui-table-tool .layui-btn-container {
+				gap: 10px;
+			}
+
+			/* 适配小屏幕 */
+			@media screen and (max-width: 768px) {
+				.search-form .layui-form-item {
+					flex-direction: column;
+					align-items: flex-start;
+				}
+
+				.search-form .layui-input-block {
+					margin-left: 0 !important;
+					width: 100%;
+				}
+				.layui-input-inline{
+					width:50%;
+					
+				}
+			}
+		
+		</style>
+	</head>
+	<body>
+		<div>
+			<div>
+				<!-- 查询条件开始 -->
+				<fieldset class="table-search-fieldset">
+					<legend>搜索信息</legend>
+
+					<form class="layui-form layui-form-pane" action="" lay-filter="searchForm">
+						<div class="layui-row layui-col-space20">
+							<div class="layui-form-item layui-col-space15">
+								<div class="layui-inline">
+									<label class="layui-form-label">宝宝姓名</label>
+									<div class="layui-input-inline">
+										<input type="text" name="babyName" placeholder="请输入宝宝姓名"
+											autocomplete="off" class="layui-input">
+									</div>
+								</div>
+								<div class="layui-inline">
+									<label class="layui-form-label">家长手机号</label>
+									<div class="layui-input-inline">
+										<input type="text" name="parentPhone" placeholder="请输入家长手机号"
+											autocomplete="off" class="layui-input">
+									</div>
+								</div>
+							</div>
+
+							<div class="layui-form-item layui-col-space15">
+								<div class="layui-inline">
+									<label class="layui-form-label">生长阶段</label>
+									<div class="layui-input-inline">
+										<select name="growthStage" lay-search>
+											<option value="">全部阶段</option>
+											<option value="newborn">新生儿（0-28天）</option>
+											<option value="infant">婴儿（1-12月）</option>
+											<option value="toddler">幼儿（1-3岁）</option>
+											<option value="preschooler">学龄前（3-6岁）</option>
+										</select>
+									</div>
+								</div>
+								<div class="layui-inline">
+									<label class="layui-form-label">会员等级</label>
+									<div class="layui-input-inline">
+										<select name="memberLevel" lay-search>
+											<option value="">全部等级</option>
+											<option value="1">普通会员</option>
+											<option value="2">银卡会员</option>
+											<option value="3">金卡会员</option>
+											<option value="4">钻石会员</option>
+										</select>
+									</div>
+								</div>
+								<div class="layui-inline" style="margin-left: 60px;">
+									<!-- 搜索按钮 -->
+									<button class="layui-btn layui-btn-normal" lay-submit="" lay-filter="searchBtn">
+										<i class="layui-icon layui-icon-search"></i> 搜索用户
+									</button>
+									<!-- 重置按钮 -->
+									<button type="button" class="layui-btn layui-btn-primary layui-btn-sm"
+										id="resetBtn">
+										<i class="layui-icon layui-icon-refresh"></i> 重置
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</fieldset>
+
+				<!-- 工具栏设置： 添加用户、批量删除，这里id的值由程序员自定-->
+				<script type="text/html" id="TableToolbar">
+					<div class="layui-btn-container">
+						<!-- 这里的lay-event="add"和delete在后面的JS代码中要用 -->
+						<button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加用户 </button>
+						<button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 批量删除 </button>
+					</div>
+				</script> <!--工具栏设置结束-->
+
+				<!-- 数据表格定义，先隐藏起来，内容由后面的JS代码动态产生；lay-filter="studentTableFilter"在后面的JS代码里用 -->
+				<table class="layui-hide" id="userTable" lay-filter="studentTableFilter"></table>
+
+				<!--用户状态列（看表格预览效果），id="userStatus"是程序员自定，后面JS中用-->
+				<script type="text/html" id="userStatus">
+					<input type="checkbox" name="status" checked lay-skin="switch" lay-text="启用|禁用" lay-event="open"
+					 lay-filter="modifystatus" {{ d.status == '1'? 'checked' : '' }} />
+				</script>
+
+				<!-- 定义表格最后一列：操作 ；lay-event="detail"、 lay-event="edit"、lay-event="delete"后面JS会用到-->
+				<script type="text/html" id="TableOperation">
+					<a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="detail">查看详情</a>
+					<a class="layui-btn  layui-btn-xs data-count-edit" lay-event="edit">修改</a>
+					<a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+				</script>
+			</div>
+		</div>
+
+		<!-- 表格区（含工具栏） -->
+		<div class="table-container">
+			<!-- 工具栏：添加宝宝信息 -->
+			<script type="text/html" id="babyTableToolbar">
+				<div class="layui-btn-container">
+					<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="addBaby">
+						<i class="layui-icon layui-icon-add-circle"></i> 添加宝宝信息
+					</button>
+					<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="batchDelete">
+						<i class="layui-icon layui-icon-delete"></i> 批量删除
+					</button>
+				</div>
+			</script>
+
+			<!-- 宝宝信息表格 -->
+			<table class="layui-table" id="babyTable" lay-filter="babyTable" lay-size="sm"></table>
+
+			<!-- 操作列模板 -->
+			<script type="text/html" id="babyTableOperate">
+				<button class="layui-btn layui-btn-xs layui-btn-normal" lay-event="view">
+					<i class="layui-icon layui-icon-eye"></i> 查看详情
+				</button>
+				<button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit">
+					<i class="layui-icon layui-icon-edit"></i> 修改
+				</button>
+				<button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">
+					<i class="layui-icon layui-icon-delete"></i> 删除
+				</button>
+			</script>
+
+			<!-- 性别列模板（数字转文字） -->
+			<script type="text/html" id="genderTpl">
+			{{ d.gender == 1 ? '男' : '女' }}
+			</script>
+
+			<!-- 生长阶段模板（值转文字） -->
+			<script type="text/html" id="stageTpl">
+			{{ d.growthStage == 'newborn' ? '新生儿（0-28天）' : 
+               d.growthStage == 'infant' ? '婴儿（1-12月）' : 
+               d.growthStage == 'toddler' ? '幼儿（1-3岁）' : 
+               d.growthStage == 'preschooler' ? '学龄前（3-6岁）' : '未知' }}
+			</script>
+
+			<!-- 会员等级模板（值转文字） -->
+			<script type="text/html" id="levelTpl">
+			{{ d.memberLevel == 1 ? '普通会员' : 
+               d.memberLevel == 2 ? '银卡会员' : 
+               d.memberLevel == 3 ? '金卡会员' : 
+               d.memberLevel == 4 ? '钻石会员' : '非会员' }}
+			</script>
+
+			<!-- 状态模板（标签样式） -->
+			<script type="text/html" id="statusTpl">
+				<span class="status-tag {{ d.status == 1 ? 'status-normal' : 'status-disabled' }}">
+					{{ d.status == 1 ? '正常' : '禁用' }}
+				</span>
+			</script>
+		</div>
+
+		<!-- Layui JS 引用 -->
+		<script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+		<script>
+			layui.use(['table', 'form', 'layer', 'jquery'], function() {
+				var table = layui.table;
+				var form = layui.form;
+				var layer = layui.layer;
+				var $ = layui.jquery;
+
+				// 1. 初始化宝宝信息表格
+				var babyTable = table.render({
+					elem: '#babyTable',
+					url: 'babyData.json', // 实际项目替换为后端接口（如 '/api/baby/list'）
+					toolbar: '#babyTableToolbar', // 顶部工具栏
+					defaultToolbar: ['filter', 'exports', 'print'], // 默认工具栏（筛选、导出、打印）
+					cols: [
+						[{
+								type: 'checkbox',
+								fixed: 'left'
+							}, // 复选框（用于批量删除）
+							{
+								field: 'babyId',
+								title: '宝宝ID',
+								sort: true,
+								fixed: 'left',
+								width: 80
+							},
+							{
+								field: 'babyName',
+								title: '宝宝姓名',
+								width: 120
+							},
+							{
+								field: 'gender',
+								title: '性别',
+								templet: '#genderTpl',
+								width: 60,
+								align: 'center'
+							},
+							{
+								field: 'birthday',
+								title: '出生日期',
+								width: 120,
+								sort: true
+							},
+							{
+								field: 'age',
+								title: '年龄/月龄',
+								width: 100,
+								align: 'center'
+							},
+							{
+								field: 'growthStage',
+								title: '生长阶段',
+								templet: '#stageTpl',
+								width: 160
+							},
+							{
+								field: 'parentName',
+								title: '家长姓名',
+								width: 120
+							},
+							{
+								field: 'parentPhone',
+								title: '家长手机号',
+								width: 130
+							},
+							{
+								field: 'memberLevel',
+								title: '会员等级',
+								templet: '#levelTpl',
+								width: 120,
+								align: 'center'
+							},
+							{
+								field: 'status',
+								title: '状态',
+								templet: '#statusTpl',
+								width: 80,
+								align: 'center'
+							},
+							{
+								field: 'createTime',
+								title: '添加时间',
+								width: 160,
+								sort: true
+							},
+							{
+								fixed: 'right',
+								title: '操作',
+								toolbar: '#babyTableOperate',
+								width: 180,
+								align: 'center'
+							}
+						]
+					],
+					page: true, // 开启分页
+					limit: 10, // 每页默认10条
+					limits: [5, 10, 15, 20], // 每页条数选择
+					skin: 'line', // 表格皮肤（线条型）
+					id: 'babyTableId' // 表格唯一标识（用于重载）
+				});
+
+				// 2. 监听搜索按钮（多条件筛选）
+				form.on('submit(doSearch)', function(data) {
+					// 获取搜索条件（表单中所有name对应的value）
+					var searchParams = data.field;
+					// 重载表格，携带搜索条件
+					table.reload('babyTableId', {
+						page: {
+							curr: 1
+						}, // 重置为第1页
+						where: searchParams // 搜索条件（会传给后端）
+					});
+					return false; // 阻止表单默认提交
+				});
+
+				// 3. 监听重置按钮（清空搜索条件）
+				$('#resetSearch').click(function() {
+					// 清空表单
+					form.val('babySearchForm', {
+						'babyName': '',
+						'parentPhone': '',
+						'growthStage': '',
+						'memberLevel': ''
+					});
+					// 重载表格（恢复默认数据）
+					table.reload('babyTableId', {
+						page: {
+							curr: 1
+						},
+						where: {} // 清空条件
+					});
+				});
+
+				// 4. 监听工具栏事件（添加宝宝、批量删除）
+				table.on('toolbar(babyTable)', function(obj) {
+					var event = obj.event;
+					// 添加宝宝信息
+					if (event === 'addBaby') {
+						layer.open({
+							title: '添加宝宝信息',
+							type: 2, //  iframe层
+							area: ['90%', '90%'], // 弹窗大小
+							shade: 0.2, // 遮罩透明度
+							maxmin: true, // 支持最大化/最小化
+							content: 'add-baby.html', // 跳转的添加页面
+							end: function() {
+								// 弹窗关闭后刷新表格
+								table.reload('babyTableId');
+							}
+						});
+					}
+					// 批量删除
+					else if (event === 'batchDelete') {
+						// 获取选中的行
+						var checkStatus = table.checkStatus('babyTableId');
+						var selectedData = checkStatus.data;
+						if (selectedData.length === 0) {
+							layer.msg('请先选择要删除的宝宝信息！', {
+								icon: 3
+							});
+							return;
+						}
+						// 确认删除
+						layer.confirm('确定要删除选中的 ' + selectedData.length + ' 条宝宝信息吗？删除后不可恢复！', {
+							icon: 2,
+							title: '警告'
+						}, function(index) {
+							// 模拟后端请求（实际项目替换为 $.ajax）
+							layer.load(1);
+							setTimeout(function() {
+								layer.closeAll('loading');
+								layer.msg('批量删除成功！', {
+									icon: 1
+								});
+								// 刷新表格
+								table.reload('babyTableId');
+							}, 1000);
+							layer.close(index);
+						});
+					}
+				});
+
+				// 5. 监听表格行操作（查看、修改、删除）
+				table.on('tool(babyTable)', function(obj) {
+					var data = obj.data; // 当前行数据（含宝宝ID等信息）
+					var event = obj.event; // 操作类型（view/edit/delete）
+
+					// 查看详情
+					if (event === 'view') {
+						layer.open({
+							title: '宝宝信息详情',
+							type: 2,
+							area: ['80%', '80%'],
+							shade: 0.2,
+							content: 'baby-detail.html?babyId=' + data.babyId, // 携带宝宝ID跳转详情页
+							maxmin: true
+						});
+					}
+					// 修改信息
+					else if (event === 'edit') {
+						layer.open({
+							title: '修改宝宝信息',
+							type: 2,
+							area: ['90%', '90%'],
+							shade: 0.2,
+							content: 'edit-baby.html?babyId=' + data.babyId, // 携带宝宝ID跳转编辑页
+							maxmin: true,
+							end: function() {
+								// 弹窗关闭后刷新表格
+								table.reload('babyTableId');
+							}
+						});
+					}
+					// 单个删除
+					else if (event === 'delete') {
+						layer.confirm('确定要删除宝宝【' + data.babyName + '】的信息吗？', {
+							icon: 3,
+							title: '确认'
+						}, function(index) {
+							// 模拟后端请求
+							layer.load(1);
+							setTimeout(function() {
+								obj.del(); // 从表格中删除当前行（前端临时删除）
+								layer.closeAll('loading');
+								layer.msg('删除成功！', {
+									icon: 1
+								});
+							}, 800);
+							layer.close(index);
+						});
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

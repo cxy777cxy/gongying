@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>销售统计 - 婴幼儿销售系统</title>
+		<link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../css/layuimini.css" media="all">
+		<style>
+			body {
+				background-color: #f9f5f7;
+				padding: 20px;
+			}
+
+			.page-title {
+				color: #ff6b9a;
+				font-size: 20px;
+				font-weight: bold;
+				margin-bottom: 20px;
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
+
+			.search-container,
+			.table-container {
+				background: white;
+				padding: 20px;
+				border-radius: 10px;
+				box-shadow: 0 2px 10px rgba(255, 107, 154, 0.1);
+				margin-bottom: 20px;
+			}
+
+			.layui-btn-normal {
+				background-color: #ff6b9a;
+				border-color: #ff6b9a;
+			}
+
+			.layui-btn-normal:hover {
+				background-color: #ff4988;
+			}
+
+			.member-level {
+				display: inline-block;
+				padding: 2px 8px;
+				border-radius: 12px;
+				font-size: 12px;
+				color: #fff;
+			}
+
+			.level-1 {
+				background-color: #cd7f32;
+			}
+
+			.level-2 {
+				background-color: #c0c0c0;
+			}
+
+			.level-3 {
+				background-color: #ffd700;
+				color: #333;
+			}
+
+			.level-4 {
+				background-color: #e5e4e2;
+				color: #333;
+			}
+
+			.level-5 {
+				background-color: #b9f2ff;
+				color: #0074d9;
+			}
+
+			.layui-card {
+				margin-bottom: 20px;
+				border-radius: 20px;
+				box-shadow: 0 0 10px 3px rgba(255, 107, 154, 0.1);
+				border: 1px solid #ffe0e9;
+			}
+
+			.layui-card-header {
+				background-color: #fff5f8;
+				color: #e63998;
+				font-weight: bold;
+				font-size: 18px;
+				border-bottom: 1px solid #ffe0e9;
+			}
+
+			.layui-form-label {
+				color: #666;
+			}
+
+			.layui-btn {
+				background-color: #ff6b9a;
+				border-color: #ff6b9a;
+			}
+
+			.layui-btn-primary {
+				background-color: #fff;
+				border-color: #ffccd5;
+				color: #ff6b9a;
+			}
+
+			.layui-select-title input {
+				color: #666;
+			}
+
+			.layui-table tbody tr:hover {
+				background-color: #faf5f7;
+			}
+
+			/* 响应式调整 - 在小屏幕上图表上下排列 */
+			@media screen and (max-width: 768px) {
+				.layui-col-md6 {
+					width: 100% !important;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page-title">
+			<i class="layui-icon layui-icon-coin"></i> 销售统计分析
+		</div>
+
+		<!-- 搜索区域 -->
+		<div class="search-container">
+			<form class="layui-form" lay-filter="salesSearchForm">
+				<div class="layui-form-item">
+					<label class="layui-form-label">产品名称</label>
+					<div class="layui-input-inline">
+						<input type="text" name="productName" placeholder="请输入产品名称" class="layui-input">
+					</div>
+					<label class="layui-form-label">产品分类</label>
+					<div class="layui-input-inline">
+						<select name="category">
+							<option value="">全部分类</option>
+							<option value="1">食品类</option>
+							<option value="2">用品类</option>
+							<option value="3">服装类</option>
+							<option value="4">玩具类</option>
+							<option value="5">洗护类</option>
+						</select>
+					</div>
+					<label class="layui-form-label">日期范围</label>
+					<div class="layui-input-inline">
+						<input type="text" name="dateRange" id="dateRange" placeholder="请选择日期范围" class="layui-input">
+					</div>
+					<div class="layui-input-inline">
+						<button class="layui-btn layui-btn-normal" lay-submit lay-filter="searchSales">
+							<i class="layui-icon layui-icon-search"></i> 搜索
+						</button>
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="layuimini-container">
+			<div class="layuimini-main">
+				<!-- 图表区域：左侧饼图，右侧柱状图 -->
+				<div class="layui-row">
+					<!-- 产品分类销量饼图 -->
+					<div class="layui-col-md6">
+						<div class="layui-card">
+							<div class="layui-card-header">
+								<i class="layui-icon layui-icon-piechart" style="margin-right: 8px;"></i>产品分类销量占比
+							</div>
+							<div class="layui-card-body">
+								<div id="productSalesPie" style="width: 100%; height: 400px;"></div>
+							</div>
+						</div>
+					</div>
+
+					<!-- 近五日销量柱状图 -->
+					<div class="layui-col-md6">
+						<div class="layui-card">
+							<div class="layui-card-header">
+								<i class="layui-icon layui-icon-chart" style="margin-right: 8px;"></i>近五日产品销量比较
+							</div>
+							<div class="layui-card-body">
+								<div id="dailySalesBar" style="width: 100%; height: 400px;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 销售数据表格：容器ID = salesTable -->
+		<div class="table-container">
+			<table class="layui-table" id="salesTable" lay-filter="salesTable"></table>
+
+			<!-- 操作列模板：ID = salesOperateTpl -->
+			<script type="text/html" id="salesOperateTpl">
+				<button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail">
+					<i class="layui-icon layui-icon-eye"></i> 详情
+				</button>
+			</script>
+		</div>
+
+		<!-- 1. 加载LayUI核心JS -->
+		<script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+
+		<!-- 2. 配置ECharts模块路径 -->
+		<script>
+			layui.config({
+				base: '../../js/lay-module/' // 确保ECharts模块路径正确（若未用ECharts可删除，但不影响表格）
+			}).extend({
+				echarts: 'echarts/echarts',
+				echartsTheme: 'echarts/echartsTheme'
+			});
+		</script>
+
+		<!-- 3. 加载业务JS（只加载1次，删除重复加载） -->
+		<script src="../../js/statis/saletwo.js" charset="utf-8"></script>
+
+		<!-- 4. 表格初始化核心逻辑（所有ID与HTML完全匹配） -->
+		<script>
+			layui.use(['table', 'form', 'layer', 'laydate'], function() { // 新增laydate：初始化日期选择框
+				var table = layui.table;
+				var form = layui.form;
+				var layer = layui.layer;
+				var laydate = layui.laydate;
+
+				// 初始化日期选择框（之前缺失，导致日期框无法点击）
+				laydate.render({
+					elem: '#dateRange', // 关联HTML中的日期框ID
+					range: true, // 支持选择“开始-结束”日期范围
+					theme: '#ff6b9a', // 匹配页面粉色主题
+					placeholder: '请选择日期范围'
+				});
+
+				// 初始化表格：所有ID与HTML一一对应
+				var salesTable = table.render({
+					elem: '#salesTable', // 1. 匹配表格容器ID（关键！之前错写为pointsTable）
+					url: 'member_points.json', // 2. JSON文件路径（确保文件与HTML在同一目录）
+					cols: [
+						[{
+								type: 'checkbox' // 复选框列
+							},
+							{
+								field: 'id',
+								title: '会员ID',
+								width: 120,
+								sort: true
+							},
+							{
+								field: 'name',
+								title: '会员姓名',
+								width: 120
+							},
+							{
+								field: 'phone',
+								title: '手机号',
+								width: 130
+							},
+							{
+								field: 'level',
+								title: '等级编码',
+								width: 120,
+								sort: true,
+								templet: function(d) { // 渲染会员等级样式
+									return '<span class="member-level level-' + d.level + '">' + d.level + '</span>';
+								}
+							},
+							{
+								field: 'levelName',
+								title: '会员等级',
+								width: 130,
+								sort: true,
+								templet: function(d) {
+									return '<span class="member-level level-' + d.level + '">' + d.levelName + '</span>';
+								}
+							},
+							{
+								field: 'points',
+								title: '当前积分',
+								width: 130,
+								sort: true,
+								style: 'color: #ff6b9a; font-weight: bold;'
+							},
+							{
+								field: 'totalEarned',
+								title: '累计获得积分',
+								width: 150,
+								sort: true
+							},
+							{
+								field: 'totalUsed',
+								title: '累计使用积分',
+								width: 150,
+								sort: true
+							},
+							{
+								field: 'lastUpdate',
+								title: '最后更新时间',
+								width: 190,
+								sort: true
+							},
+							{
+								fixed: 'right',
+								title: '操作',
+								toolbar: '#salesOperateTpl', // 3. 匹配操作列模板ID（之前错写为pointsOperateTpl）
+								width: 130
+							}
+						]
+					],
+					page: true, // 显示分页
+					limit: 10, // 每页10条
+					limits: [5, 10, 15],
+					id: 'salesTableId' // 4. 表格标识ID（与搜索逻辑匹配，之前错写为pointsTableId）
+				});
+
+				// 搜索事件：表格标识ID = salesTableId（与初始化一致）
+				form.on('submit(searchSales)', function(data) {
+					table.reload('salesTableId', {
+						page: {
+							curr: 1 // 重置为第一页
+						},
+						where: data.field // 传递搜索条件（产品名称、分类、日期）
+					});
+					return false; // 阻止表单默认提交
+				});
+
+				// 表格操作事件：修复“productName不存在”问题（JSON是会员数据，用name字段）
+				table.on('tool(salesTable)', function(obj) {
+					var data = obj.data;
+					if (obj.event === 'detail') {
+						// 原obj.data.productName改为data.name（JSON中无productName字段）
+						layer.msg('查看【' + data.name + '】的详情', {
+							icon: 6
+						});
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

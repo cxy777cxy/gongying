@@ -1,0 +1,53 @@
+{
+  "code": 0,
+  "msg": "查询成功",
+  "count": 20,
+  "data": [
+    {
+      "id": 1,
+      "name": "青铜会员",
+      "requiredPoints": 0,
+      "discount": 9.8,
+      "privileges": "1. 正价商品98折；2. 生日双倍积分；3. 基础育儿讲座",
+      "memberCount": 120
+    },
+    {
+      "id": 2,
+      "name": "白银会员",
+      "requiredPoints": 1000,
+      "discount": 9.5,
+      "privileges": "1. 正价商品95折；2. 生日三倍积分；3. 进阶育儿讲座；4. 每月1张10元券",
+      "memberCount": 80
+    },
+    {
+      "id": 3,
+      "name": "黄金会员",
+      "requiredPoints": 3000,
+      "discount": 9.0,
+      "privileges": "1. 正价商品9折；2. 生日四倍积分；3. 高级育儿讲座；4. 每月2张20元券；5. 新品试用",
+      "memberCount": 50
+    },
+    {
+      "id": 4,
+      "name": "铂金会员",
+      "requiredPoints": 5000,
+      "discount": 8.8,
+      "privileges": "1. 正价商品88折；2. 生日五倍积分；3. 专属育儿顾问；4. 每月3张30元券；5. 新品试用；6. 每年2次亲子活动",
+      "memberCount": 30
+    },
+    {
+      "id": 5,
+      "name": "钻石会员",
+      "requiredPoints": 10000,
+      "discount": 8.5,
+      "privileges": "1. 正价商品85折；2. 生日十倍积分；3. 一对一育儿顾问；4. 每月5张50元券；5. 新品试用；6. 每年4次亲子活动；7. 生日大礼包",
+      "memberCount": 15
+    }
+  ]
+}
+
+
+
+
+	
+  

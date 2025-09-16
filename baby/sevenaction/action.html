@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>营销活动查询 - 婴幼儿产品销售管理系统</title>
+    <!-- Layui 样式引用 -->
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css" media="all">
+    <style>
+        body {
+            background-color: #f9f5f7;
+            padding: 20px;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .page-title {
+            color: #ff6b9a;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(255,107,154,0.1);
+        }
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .search-item {
+            flex: 1;
+            min-width: 200px;
+        }
+        .layui-btn-normal {
+            background-color: #ff6b9a;
+            border-color: #ff6b9a;
+        }
+        .layui-btn-normal:hover {
+            background-color: #ff4988;
+        }
+        .layui-btn-danger {
+            background-color: #ff8a80;
+            border-color: #ff8a80;
+        }
+        .layui-btn-danger:hover {
+            background-color: #ff5252;
+        }
+        /* 状态标签样式 */
+        .status-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        .status-planned {
+            background-color: #e3f2fd;
+            color: #1976d2;
+        }
+        .status-active {
+            background-color: #e8f5e9;
+            color: #4caf50;
+        }
+        .status-completed {
+            background-color: #fff8e1;
+            color: #ff8f00;
+        }
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #f44336;
+        }
+        /* 进度条样式 */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: #f1f1f1;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+        .progress-bar {
+            height: 100%;
+            border-radius: 3px;
+        }
+        .progress-low {
+            background-color: #f44336;
+        }
+        .progress-medium {
+            background-color: #ffc107;
+        }
+        .progress-high {
+            background-color: #4caf50;
+        }
+        .progress-text {
+            font-size: 12px;
+            color: #777;
+        }
+        /* 数据概览卡片样式 */
+        .data-overview {
+            margin-bottom: 20px;
+        }
+        .overview-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(255,107,154,0.1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .card-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .card-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .card-trend {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .card-trend i {
+            margin-right: 5px;
+        }
+        .card-trend .layui-icon-up {
+            color: #10B981;
+        }
+        .card-trend .layui-icon-down {
+            color: #F44336;
+        }
+        .card-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .overview-card:nth-child(1) .card-icon {
+            background-color: rgba(103, 58, 183, 0.1);
+            color: #673AB7;
+        }
+        .overview-card:nth-child(2) .card-icon {
+            background-color: rgba(255, 107, 154, 0.1);
+            color: #FF6B9A;
+        }
+        .overview-card:nth-child(3) .card-icon {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面头部：标题 + 操作按钮 -->
+    <div class="page-header">
+        <div class="page-title">
+            <i class="layui-icon layui-icon-calendar"></i> 营销活动查询
+        </div>
+        <button class="layui-btn layui-btn-normal" id="addCampaignBtn">
+            <i class="layui-icon layui-icon-plus"></i> 新增活动
+        </button>
+    </div>
+
+    <!-- 数据概览区域 -->
+    <div class="data-overview layui-row layui-col-space15">
+        <div class="layui-col-md4">
+            <div class="overview-card">
+                <div class="card-title">当前活动数</div>
+                <div class="card-value">8</div>
+                <div class="card-trend">
+                    <i class="layui-icon layui-icon-up"></i> 较上月增长 12%
+                </div>
+                <div class="card-icon">
+                    <i class="layui-icon layui-icon-calendar"></i>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="overview-card">
+                <div class="card-title">本月活动销售额</div>
+                <div class="card-value">¥245,800</div>
+                <div class="card-trend">
+                    <i class="layui-icon layui-icon-up"></i> 较上月增长 8.5%
+                </div>
+                <div class="card-icon">
+                    <i class="layui-icon layui-icon-rmb"></i>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="overview-card">
+                <div class="card-title">活动参与率</div>
+                <div class="card-value">78%</div>
+                <div class="card-trend">
+                    <i class="layui-icon layui-icon-down"></i> 较上月下降 3%
+                </div>
+                <div class="card-icon">
+                    <i class="layui-icon layui-icon-user"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 表格容器 -->
+    <div class="table-container">
+        <!-- 查询表单 -->
+        <form class="layui-form search-form" id="searchForm">
+            <div class="search-item">
+                <label class="layui-form-label">活动名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="campaignName" placeholder="请输入活动名称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="search-item">
+                <label class="layui-form-label">活动类型</label>
+                <div class="layui-input-block">
+                    <select name="campaignType">
+                        <option value="">全部类型</option>
+                        <option value="discount">折扣促销促销</option>
+                        <option value="gift">买赠活动</option>
+                        <option value="membership">会员专享</option>
+                        <option value="new">新品推广</option>
+                        <option value="holiday">节日活动</option>
+                    </select>
+                </div>
+            </div>
+            <div class="search-item">
+                <label class="layui-form-label">活动状态</label>
+                <div class="layui-input-block">
+                    <select name="campaignStatus">
+                        <option value="">全部状态</option>
+                        <option value="planned">计划中</option>
+                        <option value="active">进行中</option>
+                        <option value="completed">已结束</option>
+                        <option value="cancelled">已取消</option>
+                    </select>
+                </div>
+            </div>
+            <div class="search-item" style="align-self: flex-end;">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="searchBtn">
+                        <i class="layui-icon layui-icon-search"></i> 查询
+                    </button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- 活动表格 -->
+        <table class="layui-table" id="campaignTable" lay-size="sm">
+            <thead>
+                <tr>
+                    <th style="width: 40px;">选择</th>
+                    <th>活动ID</th>
+                    <th>活动名称</th>
+                    <th>活动类型</th>
+                    <th>时间范围</th>
+                    <th>目标销售额</th>
+                    <th>当前销售额</th>
+                    <th>完成率</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 表格数据由 Layui 渲染 -->
+            </tbody>
+    </div>
+
+    <!-- 活动详情弹窗 -->
+    <div id="detailModal" style="display: none; padding: 20px;">
+        <div id="detailContent"></div>
+    </div>
+
+    <!-- Layui JS 引用 -->
+    <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script>
+        layui.use(['table', 'layer', 'form', 'laydate'], function() {
+            var table = layui.table;
+            var layer = layui.layer;
+            var form = layui.form;
+            var laydate = layui.laydate;
+
+            // 产品数据
+            const products = [
+                { id: 1, name: "婴儿奶粉 1段" },
+                { id: 2, name: "婴儿纸尿裤 L号" },
+                { id: 3, name: "婴儿湿巾 80抽" },
+                { id: 4, name: "婴儿润肤霜 50g" },
+                { id: 5, name: "婴儿连体衣 0-3月" },
+                { id: 6, name: "婴儿摇篮床" }
+            ];
+
+            // 渲染活动表格（从JSON文件加载数据）
+            table.render({
+                elem: '#campaignTable',
+                url: 'action.json', // 从JSON文件加载数据
+                page: true, // 开启分页
+                limit: 10, // 每页默认10条
+                limits: [5, 10, 15],
+                cols: [[
+                    {type: 'checkbox', fixed: 'left'},
+                    {field: 'id', title: '活动ID', fixed: 'left', sort: true},
+                    {field: 'name', title: '活动名称'},
+                    {field: 'typeText', title: '活动类型'},
+                    {title: '时间范围', templet: function(d) {
+                        return d.startDate + ' 至 ' + d.endDate;
+                    }},
+                    {field: 'targetSales', title: '目标销售额', templet: function(d) {
+                        return '¥' + formatNumber(d.targetSales);
+                    }},
+                    {field: 'currentSales', title: '当前销售额', templet: function(d) {
+                        return '¥' + formatNumber(d.currentSales);
+                    }},
+                    {title: '完成率', templet: function(d) {
+                        const completionRate = d.targetSales > 0 ? Math.round((d.currentSales / d.targetSales) * 100) : 0;
+                        let progressClass = 'progress-low';
+                        if (completionRate >= 30 && completionRate < 70) progressClass = 'progress-medium';
+                        if (completionRate >= 70) progressClass = 'progress-high';
+                        
+                        return `
+                            <div class="progress-container">
+                                <div class="progress-bar ${progressClass}" style="width: ${completionRate}%"></div>
+                            </div>
+                            <div class="progress-text">${completionRate}%</div>
+                        `;
+                    }},
+                    {field: 'status', title: '状态', templet: function(d) {
+                        return `<span class="status-tag ${d.statusClass}">${d.statusText}</span>`;
+                    }},
+                    {fixed: 'right', title: '操作', toolbar: '#operateBar', width: 220}
+                ]],
+                done: function() {
+                    // 表格渲染完成后初始化表单
+                    form.render();
+                }
+            });
+
+            // 操作栏事件监听
+            table.on('tool(campaignTable)', function(obj) {
+                var data = obj.data; // 当前行数据
+                var layEvent = obj.event; // 事件类型
+
+                // 查看活动详情
+                if (layEvent === 'view') {
+                    viewCampaignDetail(data);
+                }
+                // 编辑活动
+                else if (layEvent === 'edit') {
+                    window.location.href = 'edit-campaign.html?id=' + data.id;
+                }
+                // 删除活动
+                else if (layEvent === 'delete') {
+                    layer.confirm('确定要删除该活动吗？删除后不可恢复！', {icon: 2, title: '警告'}, function(index) {
+                        // 模拟接口请求：删除活动
+                        layer.load(1);
+                        setTimeout(function() {
+                            obj.del(); // 从表格中删除当前行
+                            layer.closeAll('loading');
+                            layer.msg('活动已删除！', {icon: 1});
+                        }, 800);
+                        layer.close(index);
+                    });
+                }
+            });
+
+            // 搜索按钮事件
+            form.on('submit(searchBtn)', function(data) {
+                // 执行搜索过滤
+                table.reload('campaignTable', {
+                    where: data.field, // 设定异步数据接口的额外参数
+                    page: {
+                        curr: 1 // 重新从第 1 页开始
+                    }
+                });
+                return false;
+            });
+
+            // 新增活动按钮事件
+            document.getElementById('addCampaignBtn').addEventListener('click', function() {
+                window.location.href = 'add-campaign.html';
+            });
+
+            // 查看活动详情
+            function viewCampaignDetail(data) {
+                // 计算完成率
+                const completionRate = data.targetSales > 0 ? Math.round((data.currentSales / data.targetSales) * 100) : 0;
+                
+                // 获取参与产品名称
+                const productNames = data.products.map(productId => {
+                    const product = products.find(p => p.id === productId);
+                    return product ? product.name : '';
+                }).filter(Boolean).join(', ');
+                
+                // 构建详情内容
+                const detailHtml = `
+                    <div class="layui-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">活动名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" value="${data.name}" class="layui-input" disabled>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">活动类型</label>
+                            <div class="layui-input-block">
+                                <input type="text" value="${data.typeText}" class="layui-input" disabled>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">活动状态</label>
+                            <div class="layui-input-block">
+                                <input type="text" value="${data.statusText}" class="layui-input" disabled>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">时间范围</label>
+                            <div class="layui-input-block">
+                                <input type="text" value="${data.startDate} 至 ${data.endDate}" class="layui-input" disabled>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">销售目标</label>
+                            <div class="layui-input-block">
+                                <input type="text" value="¥${formatNumber(data.targetSales)}" class="layui-input" disabled>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">当前销售</label>
+                            <div class="layui-input-block">
+                                <input type="text" value="¥${formatNumber(data.currentSales)}" class="layui-input" disabled>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">完成情况</label>
+                            <div class="layui-input-block">
+                                <div class="progress-container">
+                                    <div class="progress-bar ${completionRate < 30 ? 'progress-low' : completionRate < 70 ? 'progress-medium' : 'progress-high'}" 
+                                         style="width: ${completionRate}%"></div>
+                                </div>
+                                <div class="progress-text">${completionRate}% 完成 (¥${formatNumber(data.currentSales)} / ¥${formatNumber(data.targetSales)})</div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">参与产品</label>
+                            <div class="layui-input-block">
+                                <input type="text" value="${productNames}" class="layui-input" disabled>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">活动描述</label>
+                            <div class="layui-input-block">
+                                <textarea class="layui-textarea" rows="4" disabled>${data.description}</textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">销售趋势</label>
+                            <div class="layui-input-block">
+                                <canvas id="salesChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('detailContent').innerHTML = detailHtml;
+                
+                // 打开详情弹窗
+                layer.open({
+                    type: 1,
+                    title: '活动详情 - ' + data.name,
+                    content: document.getElementById('detailModal'),
+                    area: ['800px', '600px'],
+                    maxmin: true,
+                    success: function() {
+                        // 绘制销售图表
+                        setTimeout(() => {
+                            const ctx = document.getElementById('salesChart').getContext('2d');
+                            // 生成模拟的每日销售数据
+                            const days = getDaysBetweenDates(data.startDate, data.endDate);
+                            const salesData = generateSalesData(days.length, data.currentSales);
+                            
+                            new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: days.map(day => formatDate(day, true)),
+                                    datasets: [{
+                                        label: '每日销售额',
+                                        data: salesData,
+                                        backgroundColor: 'rgba(255, 107, 154, 0.1)',
+                                        borderColor: 'rgba(255, 107, 154, 1)',
+                                        borderWidth: 2,
+                                        tension: 0.3,
+                                        fill: true
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        title: {
+                                            display: true,
+                                            text: '活动期间销售额趋势'
+                                        },
+                                        tooltip: {
+                                            callbacks: {
+                                                label: function(context) {
+                                                    return `销售额: ¥${formatNumber(context.raw)}`;
+                                                }
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        y: {
+                                            beginAtZero: true,
+                                            ticks: {
+                                                callback: function(value) {
+                                                    return '¥' + formatNumber(value);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        }, 100);
+                    }
+                });
+            }
+
+            // 辅助函数：格式化日期
+            function formatDate(dateString, short = false) {
+                const date = new Date(dateString);
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                
+                return short ? `${month}/${day}` : `${year}-${month}-${day}`;
+            }
+
+            // 辅助函数：格式化数字
+            function formatNumber(num) {
+                return num.toLocaleString('zh-CN');
+            }
+
+            // 辅助函数：获取两个日期之间的所有日期
+            function getDaysBetweenDates(startDate, endDate) {
+                const days = [];
+                const start = new Date(startDate);
+                const end = new Date(endDate);
+                
+                // 如果是未来的活动，只显示到今天
+                const today = new Date();
+                const actualEnd = end > today ? today : end;
+                
+                for (let d = new Date(start); d <= actualEnd; d.setDate(d.getDate() + 1)) {
+                    days.push(new Date(d).toISOString().split('T')[0]);
+                }
+                
+                return days;
+            }
+
+            // 辅助函数：生成模拟销售数据
+            function generateSalesData(daysCount, totalSales) {
+                if (daysCount === 0 || totalSales === 0) return [];
+                
+                const data = [];
+                let remaining = totalSales;
+                const avgPerDay = totalSales / daysCount;
+                
+                // 生成随机数据，总和接近totalSales
+                for (let i = 0; i < daysCount - 1; i++) {
+                    // 随机生成在平均值的60%-140%之间的值
+                    const value = Math.round(avgPerDay * (0.6 + Math.random() * 0.8));
+                    data.push(value);
+                    remaining -= value;
+                }
+                
+                // 最后一天使用剩余值，确保总和正确
+                data.push(Math.max(0, remaining));
+                
+                return data;
+            }
+        });
+    </script>
+
+    <!-- 操作栏模板 -->
+    <script type="text/html" id="operateBar">
+        <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="view">
+            <i class="layui-icon layui-icon-eye"></i> 查看
+        </button>
+        <button class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">
+            <i class="layui-icon layui-icon-edit"></i> 编辑
+        </button>
+        <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">
+            <i class="layui-icon layui-icon-delete"></i> 删除
+        </button>
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 1000,
+  "data": [
+  {
+    "userId": 1001,
+    "username": "zhangshan",
+    "phone": "13800138000",
+    "role": "系统管理员",
+    "status": 1,
+    "createTime": "2024-01-15 09:20:30"
+  },
+  {
+    "userId": 1002,
+    "username": "lisi",
+    "phone": "13900139000",
+    "role": "销售人员",
+    "status": 1,
+    "createTime": "2024-01-18 14:50:12"
+  },
+  {
+    "userId": 1003,
+    "username": "wangwu",
+    "phone": "13700137000",
+    "role": "库存管理员",
+    "status": 0,
+    "createTime": "2024-01-20 11:30:45"
+  },
+  {
+    "userId": 1004,
+    "username": "zhaoliu",
+    "phone": "13600136000",
+    "role": "销售人员",
+    "status": 1,
+    "createTime": "2024-02-05 16:20:10"
+  },
+  {
+    "userId": 1005,
+    "username": "qianqi",
+    "phone": "13500135000",
+    "role": "销售人员",
+    "status": 0,
+    "createTime": "2024-02-10 10:15:30"
+  },
+  {
+    "userId": 1006,
+    "username": "sunba",
+    "phone": "13400134000",
+    "role": "系统管理员",
+    "status": 1,
+    "createTime": "2024-02-15 09:40:22"
+  }
+]
+}

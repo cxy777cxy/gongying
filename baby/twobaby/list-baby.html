@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>修改宝宝信息 - 婴幼儿产品销售管理系统</title>
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css" media="all">
+    <style>
+       body {
+       			    background-color: #f9f5f7;
+       			    padding: 20px;
+       			}
+       			.page-title {
+       				color: #ff6b9a;
+       				font-size: 20px;
+       				margin-bottom: 20px;
+       				font-weight: bold;
+       			}
+       
+       			.required-mark::before {
+       				/* 星号内容 */
+       				content: "*";
+       				/* 红色 */
+       				color: #ff0000;
+       				/* 与文字保持一点距离 */
+       				margin-right: 4px;
+       				/* 星号加粗 */
+       				font-weight: bold;
+       
+       			}
+       
+       			.layui-form-label {
+       				margin-left: 30px;
+       				width: 150px;
+       				/* 加宽label，足够放下长标题（如“近期成长变化”） */
+       				min-width: 150px;
+       				/* 防止宽度被压缩 */
+       				text-align: left;
+       				padding-right: 0;
+       
+       				line-height: 38px !important;
+       				/* 与输入框高度对齐 */
+       			}
+       
+       			.layui-form-item {
+       				margin-bottom: 6px;
+       				display: flex;
+       				/* 确保label和输入区水平排列 */
+       				align-items: flex-start;
+       				/* 顶部对齐，避免内容错位 */
+       			}
+       
+       			.layui-input-block {
+       				padding-top: 9px;
+       				width: 70%;
+       				text-align: left;
+       				margin-left: 20px;
+       			}
+       
+       			.form-tips {
+       				color: lightpink;
+       				font-size: 12px;
+       				margin-top: 5px;
+       				line-height: 1.5;
+       			}
+       
+       			.form-container {
+       				background: white;
+       				padding: 25px;
+       				margin-left: 30px;
+       				margin-right: 30px;
+       				border-radius: 10px;
+       				box-shadow: 0 2px 10px rgba(255, 107, 154, 0.1);
+       			}
+       
+       			
+       			.form-section-title {
+       				color: #ff6b9a;
+       				margin-bottom: 15px;
+       				font-weight: 600;
+       				font-size: 16px;
+       				padding-left: 5px;
+       				border-left: 3px solid #ff6b9a;
+       			}
+       			.form-section {
+       			    margin-bottom: 30px;
+       			    padding-bottom: 20px;
+       			    border-bottom: 1px dashed #ffccd5;
+       			}
+       			.layui-btn-normal {
+       			    background-color: #ff6b9a;
+       			    border-color: #ff6b9a;
+       			}
+       			.layui-btn-primary {
+       			    border-color: #ffccd5;
+       			}
+       			.layui-btn-normal:hover {
+       			    background-color: #ff4988;
+       			}
+    </style>
+</head>
+<body>
+    <!-- 页面标题 -->
+    <div class="page-title">
+        <i class="layui-icon layui-icon-edit"></i> 修改宝宝信息
+    </div>
+
+    <!-- 表单容器 -->
+    <div class="form-container">
+        <form class="layui-form" lay-filter="editBabyForm">
+            <!-- 隐藏域：宝宝ID -->
+            <input type="hidden" name="babyId" value="10001">
+            
+            <!-- 宝宝基本信息 section -->
+            <div class="form-section">
+                <div class="form-section-title">宝宝基本信息</div>
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label required-mark">宝宝姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="babyName" lay-verify="required" 
+                               value="李小宝" autocomplete="off" 
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required-mark">性别</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="gender" value="1" title="男">
+                        <input type="radio" name="gender" value="2" title="女" checked>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required-mark">出生日期</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="birthday" lay-verify="required" 
+                               value="2022-05-18" autocomplete="off" 
+                               class="layui-input" id="birthday">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">宝宝月龄/年龄</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="age" value="2岁3个月" autocomplete="off" 
+                               class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">过敏史</label>
+                    <div class="layui-input-block">
+                        <textarea name="allergies" placeholder="请填写宝宝过敏情况，如无请填无" 
+                                  class="layui-textarea">对牛奶轻微过敏</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 家长信息 section -->
+            <div class="form-section">
+                <div class="form-section-title">家长信息</div>
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label required-mark">家长姓名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="parentName" lay-verify="required" 
+                               value="李静" autocomplete="off" 
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required-mark">联系电话</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="parentPhone" lay-verify="required|phone" 
+                               value="13800138000" autocomplete="off" 
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label required-mark">与宝宝关系</label>
+                    <div class="layui-input-block">
+                        <select name="relationship" lay-verify="required">
+                            <option value="">请选择关系</option>
+                            <option value="father">父亲</option>
+                            <option value="mother" selected>母亲</option>
+                            <option value="grandpa">祖父</option>
+                            <option value="grandma">祖母</option>
+                            <option value="other">其他</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 会员信息 section -->
+            <div class="form-section">
+                <div class="form-section-title">会员信息</div>
+                
+                <div class="layui-form-item">
+                    <label class="layui-form-label">会员等级</label>
+                    <div class="layui-input-block">
+                        <select name="memberLevel">
+                            <option value="1">普通会员</option>
+                            <option value="2" selected>银卡会员</option>
+                            <option value="3">金卡会员</option>
+                            <option value="4">钻石会员</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">注册日期</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="registerDate" value="2023-01-15" autocomplete="off" 
+                               class="layui-input" readonly>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注信息</label>
+                    <div class="layui-input-block">
+                        <textarea name="remark" placeholder="请填写其他需要记录的信息" 
+                                  class="layui-textarea">定期购买婴幼儿奶粉和纸尿裤，对有机产品有偏好</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit>提交更新</button>
+                    <button type="button" class="layui-btn layui-btn-primary" onclick="window.location.href='search-baby.html'">返回列表</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="../../lib/layui-v2.6.3/layui.js"></script>
+    <script>
+        layui.use(['form', 'layer', 'laydate'], function() {
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate = layui.laydate;
+            var $ = layui.$;
+
+            // 获取URL参数中的宝宝ID
+            function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                return r ? decodeURIComponent(r[2]) : null;
+            }
+
+            // 页面加载时获取宝宝信息
+            window.onload = function() {
+                var babyId = getUrlParam('babyId');
+                if (babyId) {
+                    $('input[name="babyId"]').val(babyId);
+                    // 实际项目中这里应该通过AJAX获取宝宝信息并填充表单
+                    console.log('当前修改的宝宝ID：', babyId);
+                }
+            };
+
+            // 初始化日期选择器
+            laydate.render({
+                elem: '#birthday',
+                format: 'yyyy-MM-dd',
+                max: new Date(), // 最大日期不能是未来时间
+                done: function(value, date) {

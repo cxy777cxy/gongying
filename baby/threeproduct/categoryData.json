@@ -1,0 +1,157 @@
+{
+  "code": 0,
+  "msg": "查询成功",
+  "count": 15,
+  "data": [
+    {
+      "categoryId": 1,
+      "categoryName": "婴儿食品",
+      "parentId": 0,
+      "parentName": "顶级分类",
+      "sortOrder": 1,
+      "status": 1,
+      "createTime": "2023-01-10 09:30:00",
+      "level": 0
+    },
+    {
+      "categoryId": 2,
+      "categoryName": "婴儿用品",
+      "parentId": 0,
+      "parentName": "顶级分类",
+      "sortOrder": 2,
+      "status": 1,
+      "createTime": "2023-01-10 09:35:00",
+      "level": 0
+    },
+    {
+      "categoryId": 3,
+      "categoryName": "婴儿服装",
+      "parentId": 0,
+      "parentName": "顶级分类",
+      "sortOrder": 3,
+      "status": 1,
+      "createTime": "2023-01-10 09:40:00",
+      "level": 0
+    },
+    {
+      "categoryId": 4,
+      "categoryName": "奶粉",
+      "parentId": 1,
+      "parentName": "婴儿食品",
+      "sortOrder": 1,
+      "status": 1,
+      "createTime": "2023-01-10 10:00:00",
+      "level": 1
+    },
+    {
+      "categoryId": 5,
+      "categoryName": "辅食",
+      "parentId": 1,
+      "parentName": "婴儿食品",
+      "sortOrder": 2,
+      "status": 1,
+      "createTime": "2023-01-10 10:05:00",
+      "level": 1
+    },
+    {
+      "categoryId": 6,
+      "categoryName": "果泥",
+      "parentId": 5,
+      "parentName": "辅食",
+      "sortOrder": 1,
+      "status": 1,
+      "createTime": "2023-01-10 10:10:00",
+      "level": 2
+    },
+    {
+      "categoryId": 7,
+      "categoryName": "米粉",
+      "parentId": 5,
+      "parentName": "辅食",
+      "sortOrder": 2,
+      "status": 1,
+      "createTime": "2023-01-10 10:15:00",
+      "level": 2
+    },
+    {
+      "categoryId": 8,
+      "categoryName": "纸尿裤",
+      "parentId": 2,
+      "parentName": "婴儿用品",
+      "sortOrder": 1,
+      "status": 1,
+      "createTime": "2023-01-10 10:20:00",
+      "level": 1
+    },
+    {
+      "categoryId": 9,
+      "categoryName": "湿巾",
+      "parentId": 2,
+      "parentName": "婴儿用品",
+      "sortOrder": 2,
+      "status": 1,
+      "createTime": "2023-01-10 10:25:00",
+      "level": 1
+    },
+    {
+      "categoryId": 10,
+      "categoryName": "洗护用品",
+      "parentId": 2,
+      "parentName": "婴儿用品",
+      "sortOrder": 3,
+      "status": 1,
+      "createTime": "2023-01-10 10:30:00",
+      "level": 1
+    },
+    {
+      "categoryId": 11,
+      "categoryName": "连体衣",
+      "parentId": 3,
+      "parentName": "婴儿服装",
+      "sortOrder": 1,
+      "status": 1,
+      "createTime": "2023-01-10 10:35:00",
+      "level": 1
+    },
+    {
+      "categoryId": 12,
+      "categoryName": "外套",
+      "parentId": 3,
+      "parentName": "婴儿服装",
+      "sortOrder": 2,
+      "status": 1,
+      "createTime": "2023-01-10 10:40:00",
+      "level": 1
+    },
+    {
+      "categoryId": 13,
+      "categoryName": "帽子",
+      "parentId": 3,
+      "parentName": "婴儿服装",
+      "sortOrder": 3,
+      "status": 0,
+      "createTime": "2023-01-10 10:45:00",
+      "level": 1
+    },
+    {
+      "categoryId": 14,
+      "categoryName": "鞋子",
+      "parentId": 3,
+      "parentName": "婴儿服装",
+      "sortOrder": 4,
+      "status": 1,
+      "createTime": "2023-01-10 10:50:00",
+      "level": 1
+    },
+    {
+      "categoryId": 15,
+      "categoryName": "玩具",
+      "parentId": 0,
+      "parentName": "顶级分类",
+      "sortOrder": 4,
+      "status": 1,
+      "createTime": "2023-01-15 14:20:00",
+      "level": 0
+    }
+  ]
+}

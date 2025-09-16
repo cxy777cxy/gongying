@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>母婴销售系统 - 用户数据统计</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- 1. 先加载Layui样式 -->
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css" media="all">
+    <style>
+        legend {
+                    color: #ff6b9a; /* 主色调：柔和粉色 */
+                    font-size: 20px;
+                    margin-bottom: 20px;
+                    font-weight: bold;
+                }
+        body {
+                    background-color: #f9f5f7;
+                    padding: 20px;
+                }
+        .layui-card { 
+            margin-bottom: 20px; 
+            border: 2px solid #E0E8FF; /* 主色浅版边框 */
+        }
+        /* 用户图表卡片样式，保留原阴影和圆角 */
+        .user-card {
+            box-shadow: 0 0 10px 3px gainsboro; 
+            border-radius: 20px;
+        }
+        .layui-card-header {
+            font-weight: bold; 
+            font-size: 18px;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <!-- 用户数据统计（仅保留用户模块） -->
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>用户数据统计</legend>
+            </fieldset>
+            <div class="layui-form" style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">用户类型</label>
+                            <div class="layui-input-inline">
+                                <select name="major2" id="major2">
+                                    <option value="" selected>--请选择--</option>
+                                    <option value="1">普通会员</option>
+                                    <option value="2">银卡会员</option>
+                                    <option value="3">金卡会员</option>
+                                    <option value="4">钻石会员</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">时间范围</label>
+                            <div class="layui-input-inline" style="width: 230px;">
+                                <input type="text" name="daterange" id="daterange" autocomplete="off" 
+                                       placeholder="请选择日期范围" class="layui-input" readonly>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit lay-filter="data-search-btn2">
+                                <i class="layui-icon layui-icon-search"></i> 搜索
+                            </button>
+                            <button type="reset" class="layui-btn layui-btn-primary">
+                                <i class="layui-icon layui-icon-refresh"></i>重置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 补全：用户折线图DOM容器（仅保留用户图表） -->
+            <div style="padding: 20px;">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-card user-card">
+                        <div class="layui-card-header">近6个月会员增长趋势</div>
+                        <div class="layui-card-body">
+                            <div id="userGrowthLine" style="width: 100%; height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 脚本加载顺序：与原格式一致 -->
+    <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <!-- 3. 配置ECharts模块路径 -->
+    <script>
+        layui.config({
+            base: '../../js/lay-module/' // 模块基础路径
+        }).extend({
+            echarts: 'echarts/echarts', // 配置echarts模块
+            echartsTheme: 'echarts/echartsTheme' // 配置主题模块
+        });
+    </script>
+    <!-- 4. 加载ECharts及主题 -->
+    <script src="../../js/lay-module/echarts/echarts.js" charset="utf-8"></script>
+    <script src="../../js/lay-module/echarts/echartsTheme.js" charset="utf-8"></script>
+    <!-- 5. 加载用户业务脚本 -->
+    <script src="../../js/statis/user.js"></script>
+</body>
+</html>

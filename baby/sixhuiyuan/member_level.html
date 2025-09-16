@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>会员等级管理</title>
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css" media="all">
+    <!-- 移除多余的 Chart.js 引用（改用 ECharts） -->
+    <style>
+        body {
+            background-color: #f9f5f7;
+            padding: 20px;
+        }
+        .page-title {
+            color: #ff6b9a;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .search-container, .chart-container, .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(255, 107, 154, 0.1);
+            margin-bottom: 20px;
+        }
+        .layui-btn-normal {
+            background-color: #ff6b9a;
+            border-color: #ff6b9a;
+        }
+        .layui-btn-normal:hover {
+            background-color: #ff4988;
+        }
+        .chart-container {
+            height: 350px;
+        }
+        .level-badge {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            color: #fff;
+            margin-right: 5px;
+            font-size: 12px;
+        }
+        .layui-card {
+            margin-bottom: 20px;
+            border-radius: 20px; /* 圆角卡片 */
+            box-shadow: 0 0 10px 3px rgba(255,107,154,0.1); /* 粉色系阴影 */
+            border: 1px solid #ffe0e9;
+        }
+        .layui-card-header {
+            background-color: #fff5f8;
+            color: #e63998;
+            font-weight: bold;
+            font-size: 18px;
+            border-bottom: 1px solid #ffe0e9;
+        }
+        .layui-form-label {
+            color: #666;
+        }
+        .layui-btn {
+            background-color: #ff6b9a;
+            border-color: #ff6b9a;
+        }
+        .layui-btn-primary {
+            background-color: #fff;
+            border-color: #ffccd5;
+            color: #ff6b9a;
+        }
+        .layui-select-title input {
+            color: #666;
+        }
+        .level-1 { background-color: #cd7f32; } /* 青铜 */
+        .level-2 { background-color: #c0c0c0; } /* 白银 */
+        .level-3 { background-color: #ffd700; color: #333; } /* 黄金 */
+        .level-4 { background-color: #e5e4e2; color: #333; } /* 铂金 */
+        .level-5 { background-color: #b9f2ff; color: #0074d9; } /* 钻石 */
+    </style>
+</head>
+<body>
+    <div class="page-title">
+        <i class="layui-icon layui-icon-user"></i> 会员等级管理
+    </div>
+
+    <!-- 搜索区域 -->
+    <div class="search-container">
+        <form class="layui-form" lay-filter="levelSearchForm">
+            <div class="layui-form-item">
+                <label class="layui-form-label">等级名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="levelName" placeholder="请输入等级名称" class="layui-input">
+                </div>
+                <div class="layui-input-inline">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="searchLevel">
+                        <i class="layui-icon layui-icon-search"></i> 搜索
+                    </button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- ECharts 柱状图容器（仅保留 dailySalesBar，无其他图表） -->
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <div class="layui-row">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <i class="layui-icon layui-icon-chart" style="margin-right: 8px;"></i>近五日会员人数统计
+                        </div>
+                        <div class="layui-card-body">
+                            <!-- ECharts 用 div 容器，无需 canvas -->
+                            <div id="dailySalesBar" style="width: 100%; height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 会员等级表格 -->
+    <div class="table-container">
+        <table class="layui-table" id="levelTable" lay-filter="levelTable"></table>
+
+        <!-- 操作列模板 -->
+        <script type="text/html" id="levelOperateTpl">
+            <button class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">
+                <i class="layui-icon layui-icon-edit"></i> 编辑
+            </button>
+            <button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">
+                <i class="layui-icon layui-icon-delete"></i> 删除
+            </button>
+        </script>
+    </div>
+
+    <!-- 编辑等级弹窗 -->
+    <div id="levelEditModal" style="display: none; padding: 20px;">
+        <form class="layui-form" lay-filter="levelForm">
+            <input type="hidden" name="id">
+            <div class="layui-form-item">
+                <label class="layui-form-label">等级名称</label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" required lay-verify="required" placeholder="请输入等级名称" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">所需积分</label>
+                <div class="layui-input-block">
+                    <input type="number" name="requiredPoints" required lay-verify="required" placeholder="请输入所需积分" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">折扣比例</label>
+                <div class="layui-input-block">
+                    <input type="number" step="0.1" name="discount" required lay-verify="required" placeholder="请输入折扣（如9.5表示95折）" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">等级特权</label>
+                <div class="layui-input-block">
+                    <textarea name="privileges" required lay-verify="required" placeholder="请输入等级特权，多个特权用换行分隔" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="submitLevel">提交</button>
+                    <button type="button" class="layui-btn layui-btn-primary" id="closeLevelModal">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- 脚本加载：仅保留 ECharts 相关，删除 Chart.js 引用 -->
+    <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <!-- 配置 ECharts 模块路径 -->
+    <script>
+        layui.config({
+            base: '../../js/lay-module/' // 确保 ECharts 文件在该路径下
+        }).extend({
+            echarts: 'echarts/echarts', // ECharts 核心模块
+            echartsTheme: 'echarts/echartsTheme' // 可选：主题模块
+        });
+    </script>
+    <!-- 加载 ECharts 核心文件（必须先加载 ECharts，再加载 sales.js） -->
+    <script src="../../js/lay-module/echarts/echarts.js" charset="utf-8"></script>
+    <!-- 加载销售统计业务 JS（仅保留 dailyBar 逻辑） -->
+    <script src="../../js/statis/a.js"></script>
+    <!-- 表格与表单逻辑 -->
+    <script>
+        layui.use(['table', 'form', 'layer'], function() {
+            var table = layui.table;
+            var form = layui.form;
+            var layer = layui.layer;
+
+            // 1. 初始化会员等级表格
+            var levelTable = table.render({
+                elem: '#levelTable',
+                url: 'member_level.json', // 接口地址
+                cols: [[
+                    {type: 'checkbox'},
+                    {field: 'id', title: '等级ID', width: 140, sort: true},
+                    {field: 'name', title: '等级名称', width: 160, templet: function(d) {
+                        return '<span class="level-badge level-' + d.id + '">' + d.id + '</span>' + d.name;
+                    }},
+                    {field: 'requiredPoints', title: '所需积分', width: 140},
+                    {field: 'discount', title: '折扣比例', width: 140, templet: d => d.discount + '折'},
+                    {field: 'memberCount', title: '会员数量', width: 140, sort: true},
+                    {field: 'privileges', title: '等级特权', width: 1000},
+                    {fixed: 'right', title: '操作', toolbar: '#levelOperateTpl', width: 200}
+                ]],
+                page: true,
+                limit: 10,
+                limits: [5, 10, 15],
+                id: 'levelTableId'
+            });
+
+            // 2. 搜索事件
+            form.on('submit(searchLevel)', function(data) {
+                table.reload('levelTableId', {
+                    page: { curr: 1 },
+                    where: data.field
+                });
+                return false;
+            });
+
+            // 3. 表格操作列事件
+            table.on('tool(levelTable)', function(obj) {
+                var data = obj.data;
+                if (obj.event === 'edit') {
+                    form.val('levelForm', data);
+                    layer.open({
+                        type: 1,
+                        title: '编辑会员等级',
+                        content: document.getElementById('levelEditModal'),
+                        area: ['500px', '400px']
+                    });
+                } else if (obj.event === 'delete') {
+                    layer.confirm('确定删除该等级吗？', function(index) {
+                        obj.del();
+                        layer.close(index);
+                        layer.msg('删除成功', {icon: 1});
+                    });
+                }
+            });
+
+            // 4. 提交编辑表单
+            form.on('submit(submitLevel)', function(data) {
+                layer.msg('提交成功', {icon: 1});
+                layer.closeAll('page');
+                table.reload('levelTableId');
+                return false;
+            });
+
+            // 5. 关闭弹窗
+            document.getElementById('closeLevelModal').onclick = function() {
+                layer.closeAll('page');
+            };
+        });
+    </script>
+</body>
+</html>

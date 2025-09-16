@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈晓钰 - 个人简历</title>
+    <style>
+        /* 全局样式重置与基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "Arial", sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            padding: 30px 20px;
+            line-height: 1.6;
+            color: #333;
+        }
+        /* 简历容器样式 */
+        .resume-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+        }
+        /* 标题样式 */
+        .resume-title {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+        }
+        /* 表格样式优化 */
+        .resume-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 25px;
+        }
+        .resume-table th,
+        .resume-table td {
+            padding: 12px 15px;
+            border: 1px solid #e0e6ed;
+            vertical-align: middle;
+        }
+        .resume-table th {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            font-weight: 600;
+            text-align: center;
+            width: 120px;
+            font-size: 15px;
+        }
+        .resume-table td {
+            font-size: 14px;
+            color: #444;
+        }
+        /* 图片单元格样式 */
+        .photo-cell {
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+        .resume-photo {
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 2px solid #e0e6ed;
+        }
+        /* 列表项样式（荣誉、技能等） */
+        .resume-list {
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+        .resume-list li {
+            margin-bottom: 8px;
+        }
+        /* 返回按钮样式 */
+        .back-btn {
+            display: block;
+            width: 160px;
+            height: 45px;
+            line-height: 45px;
+            text-align: center;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 0 auto;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        .back-btn:hover {
+            background-color: #2980b9;
+        }
+        /* 响应式适配（小屏幕） */
+        @media (max-width: 768px) {
+            .resume-container {
+                padding: 20px 15px;
+            }
+            .resume-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            .resume-table th {
+                width: 100px;
+                font-size: 14px;
+                padding: 10px 8px;
+            }
+            .resume-table td {
+                font-size: 13px;
+                padding: 10px 8px;
+            }
+            .resume-photo {
+                width: 100px;
+                height: 130px;
+            }
+           
+			body {
+			    background-color: #f9f5f7;
+			    padding: 20px;
+			}
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- 简历标题 -->
+        <h1 class="resume-title">作者信息</h1>
+        
+        <!-- 简历表格 -->
+        <table class="resume-table">
+            <!-- 基本信息行1（含照片） -->
+            <tr>
+                <th>姓名</th>
+                <td>陈晓钰</td>
+                <th>性别</th>
+                <td>女</td>
+                <th>年龄</th>
+                <td>19</td>
+                <td rowspan="4" class="photo-cell">
+                    <img src="../../images/1寸.jpg" alt="陈晓钰证件照" class="resume-photo">
+                </td>
+            </tr>
+            <!-- 基本信息行2 -->
+            <tr>
+                <th>政治面貌</th>
+                <td>团员</td>
+                <th>学历</th>
+                <td>本科</td>
+                <th>籍贯</th>
+                <td>山西</td>
+            </tr>
+            <!-- 基本信息行3 -->
+            <tr>
+                <th>项目名称</th>
+                <td colspan="5">婴幼儿销售管理平台</td>
+                
+            </tr>
+            <!-- 教育背景基础信息 -->
+            <tr>
+                <th>毕业院校</th>
+                <td colspan="3">中北大学</td>
+                <th>专业</th>
+                <td>软件工程</td>
+            </tr>
+           
+            <!-- 联系方式 -->
+            <tr>
+                <th>联系方式</th>
+                <td colspan="6">
+                    电话：18803484227 &nbsp;&nbsp; 
+                    邮箱：3092202812@qq.com（注：已补充邮箱后缀，原信息更完整）
+                </td>
+            </tr>
+            <!-- 教育经历 -->
+            <tr>
+                <th>教育经历</th>
+                <td colspan="6">
+                    <strong>2024.09 - 2028.07</strong> 中北大学 | 软件工程专业 | 本科
+                </td>
+            </tr>
+            <!-- 专业课程 -->
+            <tr>
+                <th>专业课程</th>
+                <td colspan="6">
+                    数据结构、算法分析与设计、Java程序设计、数据库原理与应用、软件工程、操作系统、计算机网络、Web前端开发、软件测试技术等
+                </td>
+            </tr>
+            <!-- 核心知识 -->
+            <tr>
+                <th>核心知识</th>
+                <td colspan="6">
+                         前端技术核心在于使用 HTML5 构建结构，CSS3（特别是 Flex 布局 和 响应式设计）进行页面美化与适配，以及 JavaScript 配合 LayUI 实现动态交互（如 表格数据渲染、表单提交、弹窗、日期选择），并利用 ECharts 进行数据可视化分析（如 饼图、柱状图）。
+                    业务逻辑上，平台涵盖了 会员管理（积分查询、等级划分）、销售分析（销量统计、区域/时间趋势）、库存管理（预警、入库/出库记录）、用户交互（搜索筛选、数据导出/打印、批量操作）等多项功能，旨在为线上及线下门店的婴幼儿产品销售提供全面的数据支持和便捷的管理能力。
+
+                </td>
+            </tr>
+          
+
+        </table>
+        
+        
+    </div>
+</body>
+</html>

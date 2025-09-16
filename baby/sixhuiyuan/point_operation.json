@@ -1,0 +1,157 @@
+{
+  "code": 0,
+  "msg": "success",
+  "count": 15,
+  "data": [
+    {
+      "id": 1,
+      "memberName": "王小明",
+      "phone": "13800138000",
+      "operationType": "add",
+      "points": 100,
+      "reason": "purchase",
+      "operator": "系统管理员",
+      "createTime": "2023-10-27 10:30:00"
+    },
+    {
+      "id": 2,
+      "memberName": "李丽",
+      "phone": "13912345678",
+      "operationType": "subtract",
+      "points": 50,
+      "reason": "exchange",
+      "operator": "张三",
+      "createTime": "2023-10-27 11:05:15"
+    },
+    {
+      "id": 3,
+      "memberName": "王小明",
+      "phone": "13800138000",
+      "operationType": "add",
+      "points": 20,
+      "reason": "activity",
+      "operator": "系统",
+      "createTime": "2023-10-26 15:00:00"
+    },
+    {
+      "id": 4,
+      "memberName": "张伟",
+      "phone": "15899998888",
+      "operationType": "add",
+      "points": 300,
+      "reason": "purchase",
+      "operator": "李四",
+      "createTime": "2023-10-26 14:45:30"
+    },
+    {
+      "id": 5,
+      "memberName": "李丽",
+      "phone": "13912345678",
+      "operationType": "subtract",
+      "points": 20,
+      "reason": "other",
+      "operator": "系统",
+      "createTime": "2023-10-25 09:10:00"
+    },
+    {
+      "id": 6,
+      "memberName": "王小明",
+      "phone": "13800138000",
+      "operationType": "subtract",
+      "points": 80,
+      "reason": "refund",
+      "operator": "客服A",
+      "createTime": "2023-10-24 16:20:00"
+    },
+    {
+      "id": 7,
+      "memberName": "张伟",
+      "phone": "15899998888",
+      "operationType": "add",
+      "points": 50,
+      "reason": "activity",
+      "operator": "系统",
+      "createTime": "2023-10-24 11:00:00"
+    },
+    {
+      "id": 8,
+      "memberName": "李丽",
+      "phone": "13912345678",
+      "operationType": "add",
+      "points": 150,
+      "reason": "purchase",
+      "operator": "王五",
+      "createTime": "2023-10-23 13:00:00"
+    },
+    {
+      "id": 9,
+      "memberName": "王小明",
+      "phone": "13800138000",
+      "operationType": "add",
+      "points": 50,
+      "reason": "activity",
+      "operator": "系统",
+      "createTime": "2023-10-22 10:00:00"
+    },
+    {
+      "id": 10,
+      "memberName": "张伟",
+      "phone": "15899998888",
+      "operationType": "subtract",
+      "points": 10,
+      "reason": "other",
+      "operator": "系统",
+      "createTime": "2023-10-21 15:30:00"
+    },
+    {
+      "id": 11,
+      "memberName": "王小明",
+      "phone": "13800138000",
+      "operationType": "add",
+      "points": 250,
+      "reason": "purchase",
+      "operator": "赵六",
+      "createTime": "2023-10-20 10:00:00"
+    },
+    {
+      "id": 12,
+      "memberName": "李丽",
+      "phone": "13912345678",
+      "operationType": "add",
+      "points": 60,
+      "reason": "activity",
+      "operator": "系统",
+      "createTime": "2023-10-19 09:00:00"
+    },
+    {
+      "id": 13,
+      "memberName": "张伟",
+      "phone": "15899998888",
+      "operationType": "add",
+      "points": 120,
+      "reason": "purchase",
+      "operator": "钱七",
+      "createTime": "2023-10-18 11:00:00"
+    },
+    {
+      "id": 14,
+      "memberName": "王小明",
+      "phone": "13800138000",
+      "operationType": "subtract",
+      "points": 70,
+      "reason": "exchange",
+      "operator": "李四",
+      "createTime": "2023-10-17 14:00:00"
+    },
+    {
+      "id": 15,
+      "memberName": "李丽",
+      "phone": "13912345678",
+      "operationType": "add",
+      "points": 50,
+      "reason": "other",
+      "operator": "系统",
+      "createTime": "2023-10-16 16:00:00"
+    }
+  ]
+}

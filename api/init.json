@@ -1,0 +1,216 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "page/home.html"
+  },
+  "logoInfo": {
+    "title": "亲子岛",
+    "image": "images/babylogo.png",
+    "href": ""
+	
+  },
+  "menuInfo": [
+    {
+	  
+      "title": "常规管理",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "首页",
+          "href": "./page/home.html",
+          "icon": "fa fa-home",
+          "target": "_self"
+        },
+        {
+          "title": "用户管理",
+          "href": "",
+          "icon": "fa fa-group",
+          "target": "_self",
+          "child": [
+          {
+            "title": "添加用户",
+            "href": "baby/oneuser/add-user.html",
+            "icon": "fa fa-plus-square-o",
+            "target": "_self"
+          }, {
+            "title": "查询用户",
+            "href": "baby/oneuser/edit-user.html",
+            "icon": "fa fa-search",
+            "target": "_self"
+          }, {
+            "title": "删除/禁用用户",
+            "href": "baby/oneuser/user-list.html",
+            "icon": "fa fa-search",
+            "target": "_self"
+          }, {
+            "title": "查询用户",
+            "href": "baby/oneuser/user-search.html",
+            "icon": "fa fa-search",
+            "target": "_self"
+          }
+        ]
+        },
+        {
+          "title": "宝宝信息管理",
+          "href": "",
+          "icon": "fa fa-user",
+          "target": "_self",
+          "child": [
+            {
+              "title": "添加宝宝信息",
+              "href": "baby/twobaby/add-baby.html",
+              "icon": "fa fa-plus-square-o",
+              "target": "_self"
+            }, {
+              "title": "修改宝宝信息",
+              "href": "baby/twobaby/list-baby.html",
+              "icon": "fa fa-plus-circle",
+              "target": "_self"
+            }, {
+              "title": "查询宝宝信息",
+              "href": "baby/twobaby/search-baby.html",
+              "icon": "fa fa-search",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "产品管理",
+          "href": "",
+          "icon": "fa fa-male",
+          "target": "_self",
+          "child": [
+            {
+              "title": "产品分类管理",
+              "href": "baby/threeproduct/category.html",
+              "icon": "fa fa-plus-circle",
+              "target": "_self"
+            },{
+              "title": "产品信息管理",
+              "href": "baby/threeproduct/addprodct.html",
+              "icon": "fa fa-search-plus",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "订单管理",
+          "href": "baby/fourdingdan/all.html",
+          "icon": "fa fa-cart-plus",
+          "target": "_self"     
+        },
+        {
+          "title": "库存管理",
+          "href": "",
+          "icon": "fa fa-server",
+          "target": "_self",
+          "child": [
+            {
+              "title": "录入库存",
+              "href": "baby/fivekucun/add.html",
+              "icon": "fa fa-plus-circle",
+              "target": "_self"
+            }, {
+              "title": "修改库存信息",
+              "href": "baby/fivekucun/edit.html",
+              "icon": "fa fa-search-plus",
+              "target": "_self"
+            }, {
+              "title": "库存预警管理",
+              "href": "baby/fivekucun/warnning.html",
+              "icon": "fa fa-bar-chart",
+              "target": "_self"
+            }, {
+              "title": "库存查询与统计",
+              "href": "baby/fivekucun/search.html",
+              "icon": "fa fa-bar-chart",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "会员与积分管理",
+          "href": "",
+          "icon": "fa fa-eye",
+          "target": "_self",
+          "child": [
+            {
+              "title": "会员等级管理",
+              "href": "baby/sixhuiyuan/member_level.html",
+              "icon": "fa fa-plus-square-o",
+              "target": "_self"
+            }, {
+              "title": "积分录入与扣减",
+              "href": "baby/sixhuiyuan/member_points.html",
+              "icon": "fa fa-search",
+              "target": "_self"
+            }, {
+              "title": "积分查询与统计",
+              "href": "baby/sixhuiyuan/point_operation.html",
+              "icon": "fa fa-search",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "营销活动管理",
+          "href": "",
+          "icon": "fa fa-eye",
+          "target": "_self",
+          "child": [
+            {
+              "title": "营销活动",
+              "href": "baby/sevenaction/add.html",
+              "icon": "fa fa-plus-square-o",
+              "target": "_self"
+            }, {
+              "title": "营销活动信息",
+              "href": "baby/sevenaction/action.html",
+              "icon": "fa fa-search",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "统计查询管理",
+          "href": "",
+          "icon": "fa fa-th-list",
+          "target": "_self",
+          "child": [
+            {
+              "title": "销售数据统计",
+              "href": "baby/eightcount/icon.html",
+              "icon": "fa fa-plus-square-o",
+              "target": "_self"
+            }, {
+              "title": "用户数据统计",
+              "href": "baby/eightcount/user.html",
+              "icon": "fa fa-search",
+              "target": "_self"
+            }
+          ]
+        }, {
+          "title": "作者信息",
+          "href": "",
+          "icon": "fa fa-eye",
+          "target": "_self",
+          "child": [
+            {
+              "title": "个人简介",
+              "href": "baby/ninemy/jianjie.html",
+              "icon": "fa fa-plus-square-o",
+              "target": "_self"
+            }, {
+              "title": "品牌介绍",
+              "href": "baby/ninemy/pinpai.html",
+              "icon": "fa fa-search",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

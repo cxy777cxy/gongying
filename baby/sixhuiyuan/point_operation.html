@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>积分录入与扣减 - 婴幼儿销售系统</title>
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css" media="all">
+    <style>
+        body {
+            background-color: #f9f5f7;
+            padding: 20px;
+        }
+        .page-title {
+            color: #ff6b9a;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-container, .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(255, 107, 154, 0.1);
+            margin-bottom: 20px;
+        }
+        .layui-btn-normal {
+            background-color: #ff6b9a;
+            border-color: #ff6b9a;
+        }
+        .layui-btn-normal:hover {
+            background-color: #ff4988;
+        }
+        .member-info {
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px solid #f0f0f0;
+            border-radius: 5px;
+            display: none;
+        }
+        .member-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .member-detail {
+            display: flex;
+            align-items: center;
+        }
+        .member-level {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #fff;
+        }
+        .level-1 { background-color: #cd7f32; }
+        .level-2 { background-color: #c0c0c0; }
+        .level-3 { background-color: #ffd700; color: #333; }
+        .level-4 { background-color: #e5e4e2; color: #333; }
+        .level-5 { background-color: #b9f2ff; color: #0074d9; }
+    </style>
+</head>
+<body>
+    <div class="page-title">
+        <i class="layui-icon layui-icon-coin"></i> 积分录入与扣减
+    </div>
+
+    <!-- 积分操作表单 -->
+    <div class="form-container">
+        <form class="layui-form" lay-filter="pointForm">
+            <div class="layui-form-item">
+                <label class="layui-form-label">会员手机号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="phone" lay-verify="required" placeholder="请输入会员手机号" class="layui-input">
+                </div>
+                <button type="button" class="layui-btn layui-btn-primary" id="searchMember">
+                    <i class="layui-icon layui-icon-search"></i> 查询会员
+                </button>
+            </div>
+            <div class="member-info" id="memberInfo">
+                <div class="member-detail">
+                    <img src="" alt="会员头像" class="member-avatar">
+                    <div>
+                        <h4 id="memberName">会员名称</h4>
+                        <p>当前积分：<span id="currentPoints" style="color: #ff6b9a; font-weight: bold;">0</span> &nbsp;&nbsp;
+                           会员等级：<span class="member-level" id="memberLevel">普通会员</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">操作类型</label>
+                <div class="layui-input-inline">
+                    <select name="operationType" lay-verify="required" class="layui-select">
+                        <option value="">请选择操作类型</option>
+                        <option value="add">积分录入</option>
+                        <option value="subtract">积分扣减</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">积分数量</label>
+                <div class="layui-input-inline">
+                    <input type="number" name="points" lay-verify="required" placeholder="请输入积分数量" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">操作原因</label>
+                <div class="layui-input-inline">
+                    <select name="reason" lay-verify="required" class="layui-select">
+                        <option value="">请选择操作原因</option>
+                        <option value="purchase">购物获得</option>
+                        <option value="activity">活动奖励</option>
+                        <option value="exchange">兑换商品</option>
+                        <option value="refund">退款扣减</option>
+                        <option value="other">其他原因</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">操作备注</label>
+                <div class="layui-input-block">
+                    <textarea name="remark" placeholder="请输入操作备注" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit lay-filter="submitPoint">提交操作</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- 积分操作记录表格 -->
+    <div class="table-container">
+        <table class="layui-table" id="pointRecordTable" lay-filter="pointRecordTable"></table>
+
+        <!-- 操作列模板 -->
+        <script type="text/html" id="recordOperateTpl">
+            <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="view">
+                <i class="layui-icon layui-icon-eye"></i> 查看
+            </button>
+        </script>
+    </div>
+
+    <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['table', 'form', 'layer'], function() {
+            var table = layui.table;
+            var form = layui.form;
+            var layer = layui.layer;
+
+            // 1. 初始化积分操作记录表格
+           // 调整宽度后的积分操作记录表格初始化
+           table.render({
+               elem: '#pointRecordTable',
+               url: 'point_operation.json', // 接口地址
+               cols: [[
+                   {type: 'checkbox', width: 50}, // 复选框列：宽度最小化，仅保留选择功能
+                   {field: 'id', title: '记录ID', width: 100, sort: true}, // 记录ID：宽度适度，保留排序
+                   {field: 'memberName', title: '会员名称', width: 140}, // 会员名称：预留足够空间显示2-4字中文名
+                   {field: 'phone', title: '会员手机号', width: 160}, // 手机号：适配11位数字+间隔，避免换行
+                   {field: 'operationType', title: '操作类型', width: 120, templet: function(d) {
+                       return d.operationType === 'add' ? '<span style="color: #4caf50;">积分录入</span>' : '<span style="color: #f44336;">积分扣减</span>';
+                   }}, // 操作类型：适配文字长度，突出颜色标识
+                   {field: 'points', title: '积分数量', width: 120}, // 积分数量：预留3-5位数字空间（如“1000”）
+                   {field: 'reason', title: '操作原因', width: 140, templet: function(d) {
+                       // 优化：操作原因文字过长时省略显示，鼠标悬浮展示完整内容
+                       var reasonMap = {
+                           'purchase': '购物获得',
+                           'activity': '活动奖励',
+                           'exchange': '兑换商品',
+                           'refund': '退款扣减',
+                           'other': '其他原因'
+                       };
+                       var reasonText = reasonMap[d.reason] || d.reason;
+                       return `<span title="${reasonText}" style="display: inline-block; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${reasonText}</span>`;
+                   }}, // 操作原因：适配最长“活动奖励”等文字，加省略号优化长文本
+                   {field: 'operator', title: '操作人', width: 120}, // 操作人：同会员名称宽度，保持对称
+                   {field: 'createTime', title: '操作时间', width: 180, sort: true}, // 操作时间：适配“YYYY-MM-DD HH:MM:SS”完整格式
+                   {fixed: 'right', title: '操作', toolbar: '#recordOperateTpl', width: 100} // 固定操作列：宽度适配“查看”按钮，避免遮挡
+               ]],
+               page: true,
+               limit: 10,
+               limits: [5, 10, 15],
+               id: 'pointRecordTableId',
+               // 新增：表格容器样式适配，与页面整体风格统一
+               done: function() {
+                   // 表格边框与阴影优化（可选，若需要更贴合页面风格）
+                   $('#pointRecordTable').next('.layui-table-view').css({
+                       'border-radius': '10px', // 与表单容器一致的圆角
+                       'box-shadow': '0 2px 10px rgba(255, 107, 154, 0.05)' // 更淡的阴影，避免与表单重复
+                   });
+               }
+           });
+
+            // 2. 查询会员信息（点击“查询会员”按钮）
+            document.getElementById('searchMember').onclick = function() {
+                var phone = form.val('pointForm').phone;
+                if (!phone) {
+                    layer.msg('请输入会员手机号', {icon: 3});
+                    return;
+                }
+                // 模拟查询会员（实际需调用后端接口）
+                fetch('members.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        var member = data.members.find(m => m.phone === phone);
+                        if (member) {
+                            document.getElementById('memberInfo').style.display = 'block';
+                            document.querySelector('.member-avatar').src = member.avatar;
+                            document.getElementById('memberName').innerText = member.name;
+                            document.getElementById('currentPoints').innerText = member.points;
+                            document.getElementById('memberLevel').innerText = member.levelName;
+                            document.getElementById('memberLevel').className = 'member-level level-' + member.level;
+                        } else {
+                            layer.msg('未找到该会员', {icon: 5});
+                        }
+                    });
+            };
+
+            // 3. 提交积分操作（点击“提交操作”按钮）
+            form.on('submit(submitPoint)', function(data) {
+                var formData = data.field;
+                if (document.getElementById('memberInfo').style.display !== 'block') {
+                    layer.msg('请先查询会员', {icon: 3});
+                    return false;
+                }
+                // 模拟提交（实际需调用后端接口）
+                layer.msg('积分操作成功', {icon: 1});
+                table.reload('pointRecordTableId'); // 刷新记录表格
+                this.form.reset(); // 重置表单
+                document.getElementById('memberInfo').style.display = 'none'; // 隐藏会员信息
+                return false;
+            });
+
+            // 4. 表格操作列事件：查看记录详情
+            table.on('tool(pointRecordTable)', function(obj) {
+                if (obj.event === 'view') {
+                    layer.msg('查看积分记录详情', {icon: 6});
+                    // 实际可弹出详情弹窗或页面
+                }
+            });
+        });
+    </script>
+</body>
+</html>

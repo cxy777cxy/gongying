@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>母婴销售系统 - 数据统计</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Layui 样式引用 -->
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css" media="all">
+    <style>
+        /* 主题样式：延续浅粉色母婴风格 */
+        body {
+            background-color: #f9f5f7;
+            padding: 20px;
+        }
+        legend {
+            color: #ff6b9a; /* 主色调：柔和粉色 */
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .layui-card {
+            margin-bottom: 20px;
+            border-radius: 20px; /* 圆角卡片 */
+            box-shadow: 0 0 10px 3px rgba(255,107,154,0.1); /* 粉色系阴影 */
+            border: 1px solid #ffe0e9;
+        }
+        .layui-card-header {
+            background-color: #fff5f8;
+            color: #e63998;
+            font-weight: bold;
+            font-size: 18px;
+            border-bottom: 1px solid #ffe0e9;
+        }
+        .layui-form-label {
+            color: #666;
+        }
+        .layui-btn {
+            background-color: #ff6b9a;
+            border-color: #ff6b9a;
+        }
+        .layui-btn-primary {
+            background-color: #fff;
+            border-color: #ffccd5;
+            color: #ff6b9a;
+        }
+        .layui-select-title input {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="layuimini-container">
+        <div class="layuimini-main">
+            <!-- 销售数据统计标题 -->
+            <fieldset class="layui-elem-field layui-field-title" style="border-color: #ffe0e9;">
+                <legend>销售数据统计</legend>
+            </fieldset>
+
+            <!-- 搜索表单 -->
+            <div class="layui-form" style="margin: 10px; background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(255,107,154,0.1);">
+                <form class="layui-form layui-form-pane" action="" lay-filter="salesSearchForm">
+                    <div class="layui-form-item">
+                        <!-- 产品类别 -->
+                        <div class="layui-inline">
+                            <label class="layui-form-label">产品类别</label>
+                            <div class="layui-input-inline">
+                                <select name="productType">
+                                    <option value="" selected>--请选择--</option>
+                                    <option value="1">奶粉类</option>
+                                    <option value="2">辅食类</option>
+                                    <option value="3">纸尿裤</option>
+                                    <option value="4">洗护用品</option>
+                                    <option value="5">玩具</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- 时间范围（ID统一为dateRange） -->
+                        <div class="layui-inline">
+                            <label class="layui-form-label">时间范围</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="dateRange" id="dateRange" autocomplete="off" 
+                                       placeholder="请选择日期范围" class="layui-input" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <!-- 销售区域 -->
+                        <div class="layui-inline">
+                            <label class="layui-form-label">销售区域</label>
+                            <div class="layui-input-inline">
+                                <select name="salesArea">
+                                    <option value="" selected>--请选择--</option>
+                                    <option value="1">华东地区</option>
+                                    <option value="2">华南地区</option>
+                                    <option value="3">华北地区</option>
+                                    <option value="4">西部地区</option>
+                                    <option value="5">东北地区</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- 销售状态 -->
+                        <div class="layui-inline">
+                            <label class="layui-form-label">销售状态</label>
+                            <div class="layui-input-inline">
+                                <select name="salesStatus">
+                                    <option value="" selected>--请选择--</option>
+                                    <option value="1">正常销售</option>
+                                    <option value="2">促销活动</option>
+                                    <option value="3">缺货</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- 搜索按钮（lay-filter统一为salesSearchBtn） -->
+                        <div class="layui-inline">
+                            <button class="layui-btn" lay-submit lay-filter="salesSearchBtn">
+                                <i class="layui-icon layui-icon-search"></i> 搜索
+                            </button>
+                            <button type="reset" class="layui-btn layui-btn-primary">
+                                <i class="layui-icon layui-icon-refresh"></i> 重置
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 饼图区域（两列布局） -->
+            <div class="layui-row layui-col-space15">
+                <!-- 产品类别销售占比饼图（ID统一为productSalesPie） -->
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <i class="layui-icon layui-icon-chart-pie" style="margin-right: 8px;"></i>产品类别销售占比
+                        </div>
+                        <div class="layui-card-body">
+                            <div id="productSalesPie" style="width: 100%; height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 区域销售分布饼图（ID统一为areaSalesPie） -->
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <i class="layui-icon layui-icon-chart-pie" style="margin-right: 8px;"></i>区域销售分布
+                        </div>
+                        <div class="layui-card-body">
+                            <div id="areaSalesPie" style="width: 100%; height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 近五日销量柱状图（通栏布局，ID统一为dailySalesBar） -->
+            <div class="layui-row">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <i class="layui-icon layui-icon-chart" style="margin-right: 8px;"></i>近五日产品销量比较
+                        </div>
+                        <div class="layui-card-body">
+                            <div id="dailySalesBar" style="width: 100%; height: 400px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本加载（按顺序：Layui核心 → ECharts配置 → ECharts核心 → 业务JS） -->
+    <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+
+    <!-- 配置ECharts模块路径 -->
+    <script>
+        layui.config({
+            base: '../../js/lay-module/' // ECharts模块所在基础路径
+        }).extend({
+            echarts: 'echarts/echarts', // ECharts核心模块
+            echartsTheme: 'echarts/echartsTheme' // ECharts主题模块
+        });
+    </script>
+
+    <!-- 加载ECharts及主题 -->
+    <script src="../../js/statis/statis.js" charset="utf-8"></script>
+    
+
+    <!-- 加载销售统计业务JS -->
+    <script src="../../js/statis/statis.js"></script>
+</body>
+</html>

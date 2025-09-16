@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>录入库存 - 婴幼儿产品销售管理平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="icon" href="../../images/favicon.ico">
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css?v=2.0.4.2" media="all">
+    <link rel="stylesheet" href="../../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <style>
+		body {
+		            background-color: #f9f5f7;
+		            padding: 20px;
+		        }
+		        legend {
+		            color: #ff6b9a; /* 主色调：柔和粉色 */
+		            font-size: 20px;
+		            margin-bottom: 20px;
+		            font-weight: bold;
+		        }
+        .form-container {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .layui-form-item .layui-form-label {
+            width: 120px;
+        }
+        .layui-form-item .layui-input-block {
+            margin-left: 150px;
+        }
+        .required {
+            color: #ff4d4f;
+        }
+    </style>
+</head>
+<body class="layui-form">
+    <div class="form-container">
+        <fieldset class="layui-elem-field">
+            <legend><i class="fa fa-plus-circle"></i> 录入库存信息</legend>
+            <div class="layui-field-box">
+                <form class="layui-form" lay-filter="inventoryForm">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">产品名称 <span class="required">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="productId" lay-verify="required" lay-search>
+                                <option value="">请选择产品</option>
+                                <option value="1">婴儿奶粉（0-6个月）</option>
+                                <option value="2">婴儿纸尿裤（M码）</option>
+                                <option value="3">婴儿湿巾（80抽）</option>
+                                <option value="4">婴儿连体衣（66码）</option>
+                                <option value="5">婴儿沐浴露（200ml）</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">规格型号 <span class="required">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="specification" lay-verify="required" placeholder="请输入产品规格型号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">单位 <span class="required">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="unit" lay-verify="required">
+                                <option value="">请选择单位</option>
+                                <option value="箱">箱</option>
+                                <option value="件">件</option>
+                                <option value="个">个</option>
+                                <option value="瓶">瓶</option>
+                                <option value="包">包</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">入库数量 <span class="required">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="number" name="quantity" lay-verify="required|number" min="1" placeholder="请输入入库数量" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">库存总量 <span class="required">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="number" name="totalStock" lay-verify="required|number" min="1" placeholder="请输入当前库存总量" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">预警数量 <span class="required">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="number" name="warningStock" lay-verify="required|number" min="0" placeholder="请输入库存预警数量" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">入库日期 <span class="required">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="date" name="inboundDate" lay-verify="required" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">保质期</label>
+                        <div class="layui-input-block">
+                            <input type="date" name="expiryDate" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">仓库位置</label>
+                        <div class="layui-input-block">
+                            <select name="warehouse">
+                                <option value="">请选择仓库</option>
+                                <option value="主仓库A区">主仓库A区</option>
+                                <option value="主仓库B区">主仓库B区</option>
+                                <option value="副仓库1号">副仓库1号</option>
+                                <option value="副仓库2号">副仓库2号</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">供应商</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="supplier" placeholder="请输入供应商名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注信息</label>
+                        <div class="layui-input-block">
+                            <textarea name="remark" placeholder="请输入备注信息" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">录入人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="operator" value="admin" readonly class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit lay-filter="submitForm"><i class="fa fa-save"></i> 提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary"><i class="fa fa-refresh"></i> 重置</button>
+                            <button type="button" class="layui-btn layui-btn-danger" onclick="history.back()"><i class="fa fa-arrow-left"></i> 返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+
+    <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'layer'], function() {
+            var form = layui.form,
+                layer = layui.layer;
+            
+            // 监听提交
+            form.on('submit(submitForm)', function(data) {
+                // 模拟提交数据
+                console.log('库存信息：', data.field);
+                
+                // 显示提交成功消息
+                layer.msg('库存信息录入成功！', {
+                    icon: 1,
+                    time: 2000
+                }, function() {
+                    // 可以在这里添加提交成功后的跳转逻辑
+                    // history.back();
+                });
+                
+                return false; // 阻止表单跳转
+            });
+        });
+    </script>
+</body>
+</html>

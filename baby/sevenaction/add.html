@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>母婴促销活动</title>
+    <!-- Layui 样式引用 -->
+        <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+        <link rel="stylesheet" href="../../css/layuimini.css" media="all">
+    <style>
+        body {
+            background-color: #ffe6f0; /* 浅粉色背景 */
+            padding: 20px;
+        }
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .page-title {
+            color: #e63998; /* 主色调（粉色系） */
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(230, 57, 152, 0.15);
+            margin-bottom: 10px;
+        }
+        .page-subtitle {
+            color: #ff6b9a;
+            font-size: 18px;
+        }
+        .promo-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(230, 57, 152, 0.15);
+            padding: 20px; /* 增大内边距 */
+            max-width: 350px; /* 限制最大宽度 */
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .promo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(230, 57, 152, 0.25);
+        }
+        .promo-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .promo-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e63998;
+            margin-bottom: 8px;
+        }
+        .promo-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .promo-btn {
+            background-color: #ff6b9a;
+            border-color: #ff6b9a;
+            color: #fff;
+            font-size: 14px;
+            padding: 6px 18px;
+            border-radius: 20px;
+        }
+        .promo-btn:hover {
+            background-color: #e63998;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <div class="page-header">
+        <div class="page-title">母婴狂欢季</div>
+        <div class="page-subtitle">精选促销活动 · 给宝宝最贴心的爱</div>
+    </div>
+
+    <!-- 促销卡片容器（Layui栅格系统） -->
+    <div class="layui-container">
+        <div class="layui-row layui-col-space15">
+            <!-- 第一行卡片 -->
+            <div class="layui-col-md4">
+                <div class="promo-card">
+                    <img src="../../images/礼盒.jpg" alt="新生婴儿礼盒" class="promo-img">
+                    <div class="promo-title">新生婴儿礼盒</div>
+                    <div class="promo-desc">包含奶粉、纸尿裤、婴儿衣等10件必备品，新生妈妈一站式选购</div>
+                    <button class="layui-btn promo-btn">立即抢购</button>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="promo-card">
+                    <img src="../../images/安全座椅.jpg" alt="儿童安全座椅" class="promo-img">
+                    <div class="promo-title">360°儿童安全座椅</div>
+                    <div class="promo-desc">0-12岁全阶段适用，通过欧盟i-Size认证，全方位保护乘车安全</div>
+                    <button class="layui-btn promo-btn">查看详情</button>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="promo-card">
+                    <img src="../../images/婴儿车.jpg" alt="轻便婴儿车" class="promo-img">
+                    <div class="promo-title">轻便折叠婴儿车</div>
+                    <div class="promo-desc">可坐可躺+一键折叠，航空级铝合金车架，重量仅5.8kg</div>
+                    <button class="layui-btn promo-btn">限时折扣</button>
+                </div>
+            </div>
+
+            <!-- 第二行卡片 -->
+            <div class="layui-col-md4">
+                <div class="promo-card">
+                    <img src="../../images/奶粉套装.jpg" alt="有机奶粉" class="promo-img">
+                    <div class="promo-title">有机婴幼儿奶粉</div>
+                    <div class="promo-desc">欧盟&中国双重有机认证，A2β-酪蛋白+乳铁蛋白配方，营养成分高</div>
+                    <button class="layui-btn promo-btn">买3送1</button>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="promo-card">
+                    <img src="../../images/辅食.jpg" alt="宝宝辅食" class="promo-img">
+                    <div class="promo-title">宝宝营养辅食组合</div>
+                    <div class="promo-desc">米粉+果泥+肉松全系列，科学分阶，满足6-36个月营养需求</div>
+                    <button class="layui-btn promo-btn">组合优惠</button>
+                </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="promo-card">
+                    <img src="../../images/洗护套装.jpg" alt="婴儿洗护" class="promo-img">
+                    <div class="promo-title">天然婴儿洗护套装</div>
+                    <div class="promo-desc">洗发沐浴二合一+润肤乳+护臀膏，植物配方温和无刺激</div>
+                    <button class="layui-btn promo-btn">满299减50</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Layui JS 引用（如需交互可扩展） -->
+   <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['element', 'layer'], function(){
+            var element = layui.element;
+            var layer = layui.layer;
+            
+            // 示例：点击按钮弹出提示
+            document.querySelectorAll('.promo-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    layer.msg('活动即将上线，敬请期待～', {icon: 1});
+                });
+            });
+        });
+    </script>
+</body>
+</html>

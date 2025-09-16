@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>库存查询与统计 - 婴幼儿产品销售管理平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="icon" href="../../images/favicon.ico">
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css?v=2.0.4.2" media="all">
+    <link rel="stylesheet" href="../../lib/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <style>
+		body {
+		            background-color: #f9f5f7;
+		            padding: 20px;
+		        }
+		        legend {
+		            color: #ff6b9a; /* 主色调：柔和粉色 */
+		            font-size: 20px;
+		            margin-bottom: 20px;
+		            font-weight: bold;
+		        }
+        .container {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .search-bar {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+        .statistics-panel {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        .stat-item {
+            display: inline-block;
+            width: 24%;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #9C6175FD;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        .chart-container {
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        .layui-table th {
+            text-align: center;
+        }
+		.layui-card {
+		    margin-bottom: 20px;
+		    border-radius: 20px; /* 圆角卡片 */
+		    box-shadow: 0 0 10px 3px rgba(255,107,154,0.1); /* 粉色系阴影 */
+		    border: 1px solid #ffe0e9;
+		}
+		.layui-card-header {
+		    background-color: #fff5f8;
+		    color: #e63998;
+		    font-weight: bold;
+		    font-size: 18px;
+		    border-bottom: 1px solid #ffe0e9;
+		}
+		.layui-form-label {
+		    color: #666;
+		}
+		.layui-btn {
+		    background-color: #ff6b9a;
+		    border-color: #ff6b9a;
+		}
+		.layui-btn-primary {
+		    background-color: #fff;
+		    border-color: #ffccd5;
+		    color: #ff6b9a;
+		}
+		.layui-select-title input {
+		    color: #666;
+		}
+		.layui-table tbody tr:hover {
+			background-color: #faf5f7 ;
+
+		}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend><i class="fa fa-bar-chart"></i> 库存查询与统计</legend>
+        </fieldset>
+        
+        <div class="statistics-panel">
+            <div class="stat-item">
+                <div class="stat-value">128</div>
+                <div class="stat-label">产品总数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">56,320</div>
+                <div class="stat-label">总库存量</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">8</div>
+                <div class="stat-label">预警产品数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">4</div>
+                <div class="stat-label">缺货产品数</div>
+            </div>
+        </div>
+        
+        <div class="layuimini-container">
+            <div class="layuimini-main">
+                
+        
+        
+        
+                <!-- 近五日销量柱状图（通栏布局，ID统一为dailySalesBar） -->
+                <div class="layui-row">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                <i class="layui-icon layui-icon-chart" style="margin-right: 8px;"></i>近五日库存余量
+                            </div>
+                            <div class="layui-card-body">
+                                <div id="dailySalesBar" style="width: 100%; height: 400px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="search-bar">
+            <form class="layui-form" lay-filter="searchForm">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">产品名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="productName" placeholder="请输入产品名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">产品分类</label>
+                        <div class="layui-input-inline">
+                            <select name="category">
+                                <option value="">全部</option>
+                                <option value="1">食品类</option>
+                                <option value="2">用品类</option>
+                                <option value="3">服装类</option>
+                                <option value="4">玩具类</option>
+                                <option value="5">洗护类</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">仓库</label>
+                        <div class="layui-input-inline">
+                            <select name="warehouse">
+                                <option value="">全部</option>
+                                <option value="主仓库A区">主仓库A区</option>
+                                <option value="主仓库B区">主仓库B区</option>
+                                <option value="副仓库1号">副仓库1号</option>
+                                <option value="副仓库2号">副仓库2号</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">库存状态</label>
+                        <div class="layui-input-inline">
+                            <select name="status">
+                                <option value="">全部</option>
+                                <option value="normal">正常</option>
+                                <option value="warning">预警</option>
+                                <option value="out">缺货</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="layui-btn" lay-submit lay-filter="search"><i class="fa fa-search"></i> 搜索</button>
+                    <button type="reset" class="layui-btn layui-btn-primary"><i class="fa fa-refresh"></i> 重置</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="layui-btn-group" style="margin-bottom: 15px;">
+            <button class="layui-btn" id="refreshData"><i class="fa fa-refresh"></i> 刷新数据</button>
+            <button class="layui-btn" id="exportExcel"><i class="fa fa-download"></i> 导出报表</button>
+            <button class="layui-btn" id="printReport"><i class="fa fa-print"></i> 打印报表</button>
+            <button class="layui-btn" id="advancedSearch"><i class="fa fa-sliders"></i> 高级搜索</button>
+        </div>
+        
+        <table class="layui-table" lay-size="sm" lay-filter="inventoryTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>产品名称</th>
+                    <th>分类</th>
+                    <th>规格型号</th>
+                    <th>单位</th>
+                    <th>库存数量</th>
+                    <th>预警数量</th>
+                    <th>仓库位置</th>
+                    <th>库存状态</th>
+                    <th>最后更新时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1001</td>
+                    <td>婴儿奶粉（0-6个月）</td>
+                    <td>食品类</td>
+                    <td>900g/罐</td>
+                    <td>罐</td>
+                    <td>120</td>
+                    <td>30</td>
+                    <td>主仓库A区</td>
+                    <td><span class="layui-badge layui-bg-green">正常</span></td>
+                    <td>2023-11-10 14:30:22</td>
+                    <td>
+                        <button class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 调整</button>
+                        <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail"><i class="fa fa-eye"></i> 详情</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1002</td>
+                    <td>婴儿纸尿裤（M码）</td>
+                    <td>用品类</td>
+                    <td>60片/包</td>
+                    <td>包</td>
+                    <td>10</td>
+                    <td>20</td>
+                    <td>主仓库B区</td>
+                    <td><span class="layui-badge layui-bg-orange">预警</span></td>
+                    <td>2023-11-11 09:15:47</td>
+                    <td>
+                        <button class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 调整</button>
+                        <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail"><i class="fa fa-eye"></i> 详情</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1003</td>
+                    <td>婴儿湿巾（80抽）</td>
+                    <td>用品类</td>
+                    <td>80抽/包</td>
+                    <td>包</td>
+                    <td>5</td>
+                    <td>15</td>
+                    <td>副仓库1号</td>
+                    <td><span class="layui-badge layui-bg-red">缺货</span></td>
+                    <td>2023-11-11 11:23:16</td>
+                    <td>
+                        <button class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 调整</button>
+                        <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail"><i class="fa fa-eye"></i> 详情</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1004</td>
+                    <td>婴儿连体衣（66码）</td>
+                    <td>服装类</td>
+                    <td>66码</td>
+                    <td>件</td>
+                    <td>86</td>
+                    <td>20</td>
+                    <td>主仓库A区</td>
+                    <td><span class="layui-badge layui-bg-green">正常</span></td>
+                    <td>2023-11-08 10:05:12</td>
+                    <td>
+                        <button class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 调整</button>
+                        <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail"><i class="fa fa-eye"></i> 详情</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1005</td>
+                    <td>婴儿沐浴露（200ml）</td>
+                    <td>洗护类</td>
+                    <td>200ml/瓶</td>
+                    <td>瓶</td>
+                    <td>45</td>
+                    <td>15</td>
+                    <td>副仓库2号</td>
+                    <td><span class="layui-badge layui-bg-green">正常</span></td>
+                    <td>2023-11-09 16:45:32</td>
+                    <td>
+                        <button class="layui-btn layui-btn-xs" lay-event="edit"><i class="fa fa-edit"></i> 调整</button>
+                        <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="detail"><i class="fa fa-eye"></i> 详情</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="layui-box layui-laypage layui-laypage-default" id="pagination">
+            <a href="javascript:;" class="layui-laypage-prev layui-disabled">上一页</a>
+            <span class="layui-laypage-curr"><em class="layui-laypage-em"></em><em>1</em></span>
+            <a href="javascript:;">2</a>
+            <a href="javascript:;">3</a>
+            <a href="javascript:;">4</a>
+            <a href="javascript:;">5</a>
+            <a href="javascript:;" class="layui-laypage-next">下一页</a>
+            <span class="layui-laypage-count">共 28 条</span>
+        </div>
+    </div>
+
+    <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+	<!-- 配置ECharts模块路径 -->
+	<script>
+	    layui.config({
+	        base: '../../js/lay-module/' // ECharts模块所在基础路径
+	    }).extend({
+	        echarts: 'echarts/echarts', // ECharts核心模块
+	        echartsTheme: 'echarts/echartsTheme' // ECharts主题模块
+	    });
+	</script>
+	
+	<!-- 加载ECharts及主题 -->
+	<script src="../../js/statis/a.js" charset="utf-8"></script>
+	
+	
+	<!-- 加载销售统计业务JS -->
+	<script src="../../js/statis/a.js"></script>
+
+   
+</body>
+</html>

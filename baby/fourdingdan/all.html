@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>浅粉色导航栏</title>
+		<!-- 请勿在项目正式环境中引用该 layui.css 地址 -->
+		<link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../css/layuimini.css" media="all">
+		<style>
+			/* 浅粉色背景 */
+			.layui-nav.pink-nav {
+				background-color: #C76285FC !important;
+				text-align: center;
+				/* 浅粉色背景 */
+				width: 90%;
+				/* 导航栏占满屏幕宽度 */
+				display: flex;
+				/* 使用flex布局实现平均分配 */
+				margin: 0 auto;
+				border-radius: 5px;
+			}
+
+			/* 导航项平均分配宽度 */
+			.layui-nav.pink-nav .layui-nav-item {
+				flex: 1;
+				/* 每个导航项平均分配宽度 */
+				text-align: center;
+				/* 文字居中显示 */
+			}
+
+			/* 导航文字颜色为白色 */
+			.layui-nav.pink-nav .layui-nav-item a {
+				color: #FFFFFF !important;
+				/* 白色文字 */
+				font-weight: 500;
+				/* 文字稍粗，提高可读性 */
+				padding: 0 15px;
+				/* 调整内边距，避免文字溢出 */
+			}
+
+			/* 子菜单样式调整（与主导航风格统一） */
+			.layui-nav.pink-nav .layui-nav-child {
+				background-color: #F8D7DC !important;
+				/* 子菜单保持浅粉色背景 */
+			}
+
+			.layui-nav.pink-nav .layui-nav-child a {
+				color: #FFFFFF !important;
+				/* 子菜单文字白色 */
+			}
+
+			/* 选中和hover状态样式调整 */
+			.layui-nav.pink-nav .layui-nav-itemed a,
+			.layui-nav.pink-nav .layui-nav-item a:hover {
+				background-color: #ECB8C0 !important;
+				/* 稍深粉色作为交互反馈 */
+			}
+
+			body {
+				font-family: "Microsoft Yahei", sans-serif;
+				margin: 0;
+				padding: 0;
+				background-color: #f5f5f5;
+			}
+
+			.order-list {
+				width: 90%;
+				margin: 20px auto;
+				/* 去掉原有的背景色、边框圆角和阴影，后续在.order-item中设置 */
+			}
+
+			.order-item {
+				padding: 15px;
+				border-bottom: 1px solid #eee;
+				margin-bottom: 20px;
+				/* 每个商品容器底部添加20px外边距，实现板块间距 */
+				background-color: #fff;
+				/* 每个商品容器设置白色背景 */
+				border-radius: 8px;
+				/* 每个商品容器设置边框圆角 */
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+				/* 每个商品容器设置阴影 */
+			}
+
+			.order-header {
+				display: flex;
+
+				align-items: center;
+				margin-bottom: 10px;
+			}
+
+			.order-brand {
+				font-size: 18px;
+				font-weight: bold;
+				color: #333;
+			}
+
+			.satisfy {
+				font-weight: 700;
+				font-size: 14px;
+				color: #368439FC;
+				margin-left: 70px;
+			}
+
+			.fall {
+				font-weight: 700;
+				font-size: 14px;
+				color: #ED89ACFC;
+				margin-left: 70px;
+			}
+
+			.order-content {
+			    display: flex;
+			    align-items: flex-start; /* 保持顶部对齐 */
+			    gap: 20px; /* 统一子元素之间的间距（图片、信息、按钮），比margin更灵活 */
+			    padding: 0 10px; /* 可选：给容器加左右内边距，避免内容贴边 */
+			}
+			
+			/* 2. 修复 order-info 间距：删除自动居中，明确左侧间距（或依赖父容器的gap） */
+			.order-info {
+			    /* 关键：删除 margin: 10px auto（这是冲突根源） */
+			    margin-top: 10px; /* 只保留顶部间距，控制与顶部元素的距离 */
+			    /* 左侧间距由父容器的 gap 控制，无需额外加 margin-left */
+			    flex: 1; /* 可选：让 order-info 占满中间剩余空间，文字换行更整齐 */
+				margin-left: 30px;
+			}
+			
+			/* 3. 优化 order-img：确保图片尺寸统一（避免因图片大小导致间距视觉差异） */
+			.order-img img {
+			    height: 150px;
+			    width: 210px;
+			    border-radius: 4px;
+			    object-fit: cover; /* 图片按比例填充，避免拉伸变形 */
+			    /* 删除 margin-right: auto 和 margin-left: 10px，由父容器 gap 控制间距 */
+			}
+			
+			/* 4. 优化 order-buttons：固定右侧按钮区域，避免挤压中间信息 */
+			.order-buttons {
+			    margin-top: 130px;
+			    display: flex;
+			    gap: 10px; /* 按钮之间统一间距 */
+			    /* 删除 margin-left: auto 和 margin-right: 10px，由父容器 gap 控制间距 */
+			}
+
+			.order-name {
+				font-size: 16px;
+				color: #333;
+				margin-bottom: 8px;
+			}
+
+			.order-desc {
+				font-size: 14px;
+				color: #999;
+				margin-bottom: 8px;
+			}
+
+			.order-amount {
+				font-size: 14px;
+				color: #666;
+				margin-bottom: 8px;
+			}
+
+			.order-payment {
+				font-size: 14px;
+				color: #00b38a;
+			}
+
+			.order-buttons {
+				margin-top: 130px;
+				text-align: center;
+				display: flex;
+				margin-right: 10px;
+
+				margin-left: auto;
+			}
+            #yiping{
+				padding: 5px 15px;
+				margin: 0 5px;
+				background-color: #fff;
+				border: 1px solid #C6E6E5FC;
+				color: #C6E6E5FC;
+				border-radius: 4px;
+				cursor: pointer;
+				font-size: 14px;
+			}
+			.order-buttons button {
+				padding: 5px 15px;
+				margin: 0 5px;
+				background-color: #fff;
+				border: 1px solid #00b38a;
+				color: #00b38a;
+				border-radius: 4px;
+				cursor: pointer;
+				font-size: 14px;
+			}
+
+			.order-buttons button:hover {
+				background-color: #00b38a;
+				color: #fff;
+			}
+
+			.but {
+				margin-left: auto;
+
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 替换原有的layui-bg-gray为自定义的pink-nav类 -->
+		<ul class="layui-nav pink-nav" lay-filter="test-nav">
+		  <li class="layui-nav-item"><a href="all.html">全部</a></li>
+		  <li class="layui-nav-item"><a href="paid.html">已支付</a></li>
+		  <li class="layui-nav-item"><a href="unpaid.html">待支付</a></li>
+		  <li class="layui-nav-item"><a href="unget.html">待收货</a></li>
+		  <li class="layui-nav-item"><a href="return.html">退款/售后</a></li>
+		  <li class="layui-nav-item"><a href="unreview.html">待评价</a></li>
+		</ul>
+		<div class="order-list">
+			<div class="order-item">
+				<div class="order-header">
+					<div class="order-brand">婴儿奶瓶</div>
+					<div class="satisfy">交易成功!</div>
+					<div class="but">
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-radius">联系客服</button>
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-radius">修改地址</button>
+					</div>
+				</div>
+				<div class="order-content">
+					<div class="order-img">
+						<img src="../../images/奶瓶.jpg" alt="婴儿奶瓶">
+					</div>
+					<div class="order-info">
+						<div class="order-name">美婴堂奶瓶</div>
+						<div class="order-desc">宽口径/弧形/带柄/加印LOGO/容量：300mL蓝</div>
+						<div class="order-amount">应付账款￥45.090</div>
+						<div class="order-payment">实际付款：￥40.000</div>
+					</div>
+					<div class="order-buttons">
+						<button>删除订单</button>
+						<button>再次购买</button>
+						<button>立即评价</button>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="order-item">
+				<div class="order-header">
+					<div class="order-brand">婴儿连体衣</div>
+					<div class="fall">交易取消!</div>
+					<div class="but">
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-radius">联系客服</button>
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-radius">修改地址</button>
+					</div>
+				</div>
+				<div class="order-content">
+					<div class="order-img">
+						<img src="../../images/衣服.jpg" alt="婴儿连体衣">
+					</div>
+					<div class="order-info">
+						<div class="order-name">洁森棉衣服</div>
+						<div class="order-desc">春秋/新生儿(0~1岁，80cm及其以下)/中性/不连帽/米色（小奶瓶造型连体）</div>
+						<div class="order-amount">应付账款￥60.090</div>
+						<div class="order-payment">实际付款：￥0.000</div>
+					</div>
+					<div class="order-buttons">
+						<button>删除订单</button>
+						<button>再次购买</button>
+						<button>立即评价</button>
+					</div>
+				</div>
+
+			</div>
+			<div class="order-item">
+				<div class="order-header">
+					<div class="order-brand">婴儿奶瓶</div>
+					<div class="satisfy">交易成功!</div>
+					<div class="but">
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-radius">联系客服</button>
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-radius">修改地址</button>
+					</div>
+				</div>
+				<div class="order-content">
+					<div class="order-img">
+						<img src='../../images/玩具.jpg' alt="婴儿玩具">
+					</div>
+					<div class="order-info">
+						<div class="order-name">依思瑞玩具</div>
+						<div class="order-desc">玩具材质：布/能力培养：视觉,抓握,手眼协调/适合年龄：婴幼（0-3岁）</div>
+						<div class="order-amount">应付账款￥25.090</div>
+						<div class="order-payment">实际付款：￥25.000</div>
+					</div>
+					<div class="order-buttons">
+						<button>删除订单</button>
+						<button>再次购买</button>
+						<button id="yiping">已评价</button>
+					</div>
+				</div>
+
+			</div>
+			
+			<div class="order-item">
+				<div class="order-header">
+					<div class="order-brand">婴儿湿巾</div>
+					<div class="fall">待支付!</div>
+					<div class="but">
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-radius">联系客服</button>
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-radius">修改地址</button>
+					</div>
+				</div>
+				<div class="order-content">
+					<div class="order-img">
+						<img src="../../images/湿巾.jpg" alt="婴儿奶瓶">
+					</div>
+					<div class="order-info">
+						<div class="order-name">汉邦婴儿湿巾</div>
+						<div class="order-desc">单包加大加厚80抽/清洁,卸妆,护理</div>
+						<div class="order-amount">应付账款￥30.090</div>
+						<div class="order-payment">实际付款：￥0.000</div>
+					</div>
+					<div class="order-buttons">
+						<button>删除订单</button>
+						<button>立即支付</button>
+						<button>立即评价</button>
+					</div>
+				</div>
+			
+			</div>
+			<div class="order-item">
+				<div class="order-header">
+					<div class="order-brand">婴儿尿不湿</div>
+					<div class="satisfy">交易成功!</div>
+					<div class="but">
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-radius">联系客服</button>
+						<button type="button" class="layui-btn layui-btn-primary layui-btn-radius">修改地址</button>
+					</div>
+				</div>
+				<div class="order-content">
+					<div class="order-img">
+						<img src='../../images/尿不湿.jpg' alt="婴儿尿不湿">
+					</div>
+					<div class="order-info">
+						<div class="order-name">八月丫丫尿不湿</div>
+						<div class="order-desc">100码（16-26斤）/适合体重：13KG-25KG /星星熊猫</div>
+						<div class="order-amount">应付账款￥45.090</div>
+						<div class="order-payment">实际付款：￥45.000</div>
+					</div>
+					<div class="order-buttons">
+						<button>删除订单</button>
+						<button>再次购买</button>
+						
+					</div>
+				</div>
+			
+			</div>
+		</div>	
+			<!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
+			<script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+			<script>
+				layui.use('element', function() {
+					var element = layui.element;
+
+					// 导航点击事件
+					element.on('nav(test-nav)', function(elem) {
+						console.log('点击了：', elem.text());
+					});
+				});
+			</script>
+	</body>
+</html>

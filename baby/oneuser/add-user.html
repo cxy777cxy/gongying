@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>添加用户 - 婴幼儿产品销售管理系统</title>
+    <!-- Layui 样式引用 -->
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css" media="all">
+    <style>
+        /* 页面基础样式 */
+        body {
+            background-color: #f9f5f7; /* 淡粉色背景 */
+            padding: 20px;
+        }
+        .page-title {
+            color: #ff6b9a; /* 主色调：柔和粉色 */
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .form-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(255,107,154,0.1);
+        }
+        .layui-btn-primary {
+            border-color: #ffccd5;
+        }
+        .layui-btn-normal {
+            background-color: #ff6b9a;
+            border-color: #ff6b9a;
+        }
+        .layui-btn-normal:hover {
+            background-color: #ff4988;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面标题 -->
+    <div class="page-title">
+        <i class="layui-icon layui-icon-user-plus"></i> 添加用户
+    </div>
+
+    <!-- 表单容器 -->
+    <div class="form-container">
+        <form class="layui-form" lay-filter="addUserForm">
+            <!-- 用户名 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" lay-verify="required|username" 
+                           placeholder="请输入用户名（2-15位字符）" autocomplete="off" 
+                           class="layui-input">
+                </div>
+            </div>
+
+            <!-- 手机号 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">手机号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="phone" lay-verify="required|phone" 
+                           placeholder="请输入11位手机号" autocomplete="off" 
+                           class="layui-input">
+                </div>
+            </div>
+
+            <!-- 角色选择 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">用户角色</label>
+                <div class="layui-input-block">
+                    <select name="role" lay-verify="required" lay-search>
+                        <option value="">请选择角色</option>
+                        <option value="admin">系统管理员</option>
+                        <option value="sales">销售人员</option>
+                        <option value="stock">库存管理员</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 用户状态 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">用户状态</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="status" value="1" title="启用" checked>
+                    <input type="radio" name="status" value="0" title="禁用">
+                </div>
+            </div>
+
+            <!-- 初始密码 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">初始密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" lay-verify="required|password" 
+                           placeholder="请输入6-12位密码（含字母+数字）" autocomplete="off" 
+                           class="layui-input" lay-affix="eye">
+                </div>
+            </div>
+
+            <!-- 确认密码 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">确认密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="confirmPwd" lay-verify="required|confirmPwd" 
+                           placeholder="请再次输入密码" autocomplete="off" 
+                           class="layui-input" lay-affix="eye">
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit>提交添加</button>
+                    <button type="button" class="layui-btn layui-btn-primary" onclick="window.location.href='user-list.html'">返回用户列表</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Layui JS 引用 -->
+    <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'layer'], function() {
+            var form = layui.form;
+            var layer = layui.layer;
+
+            // 自定义验证规则
+            form.verify({
+                // 用户名：2-15位字符（字母/数字/下划线）
+                username: function(value) {
+                    if (!/^[\w]{2,15}$/.test(value)) {
+                        return '用户名需为2-15位字母、数字或下划线';
+                    }
+                },
+                // 密码：6-12位（含字母+数字）
+                password: function(value) {
+                    if (!/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,12}$/.test(value)) {
+                        return '密码需6-12位，且包含字母和数字';
+                    }
+                },
+                // 确认密码：与原密码一致
+                confirmPwd: function(value) {
+                    var pwd = document.getElementsByName('password')[0].value;
+                    if (value !== pwd) {
+                        return '两次密码输入不一致';
+                    }
+                }
+            });
+
+            // 表单提交事件
+            form.on('submit(addUserForm)', function(data) {
+                // 模拟接口请求（实际项目替换为 $.ajax）
+                layer.load(1);
+                setTimeout(function() {
+                    layer.closeAll('loading');
+                    layer.msg('用户添加成功！', {icon: 1}, function() {
+                        // 跳转回用户列表页
+                        window.location.href='user-list.html';
+                    });
+                }, 1000);
+                return false; // 阻止默认提交
+            });
+        });
+    </script>
+</body>
+</html>

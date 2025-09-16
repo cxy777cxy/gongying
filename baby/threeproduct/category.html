@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>产品分类管理 - 婴幼儿产品销售管理系统</title>
+		<link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+		<link rel="stylesheet" href="../../css/layuimini.css" media="all">
+		<style>
+			body {
+				background-color: #f9f5f7;
+				padding: 20px;
+			}
+
+			.page-title {
+				color: #ff6b9a;
+				font-size: 20px;
+				margin-bottom: 20px;
+				font-weight: bold;
+				display: flex;
+				align-items: center;
+				margin-left: 20px;
+				gap: 8px;
+			}
+
+			.table-container {
+				width: 90%;
+				margin: auto auto;
+				background: white;
+				padding: 20px;
+				border-radius: 10px;
+				box-shadow: 0 2px 10px rgba(255, 107, 154, 0.1);
+				
+			}
+
+			.layui-btn-normal {
+				background-color: #ff6b9a;
+				border-color: #ff6b9a;
+			}
+
+			.layui-btn-normal:hover {
+				background-color: #ff4988;
+			}
+
+			.layui-btn-primary {
+				border-color: #ffccd5;
+				color: #666;
+			}
+
+			.layui-btn-primary:hover {
+				background-color: #fff0f5;
+			}
+
+			.status-tag {
+				display: inline-block;
+				padding: 2px 8px;
+				border-radius: 12px;
+				font-size: 12px;
+			}
+
+			.status-enabled {
+				background-color: #e8f5e9;
+				color: #4caf50;
+			}
+
+			.status-disabled {
+				background-color: #ffebee;
+				color: #f44336;
+			}
+
+			.level-indicator {
+				display: inline-block;
+				width: 20px;
+			}
+
+			.layui-table-tool .layui-btn-container {
+				gap: 10px;
+			}
+
+			.product-img {
+				width: 100%;
+				margin: 10px;
+				/* 固定 1:1 比例，防止图片变形 */
+				position: relative;
+				overflow: hidden;
+			}
+
+			.product-info {
+				padding: 8px;
+				/* 缩小内边距，适配多列 */
+				flex: 1;
+				/* 占满剩余高度，确保文字区域对齐 */
+				display: flex;
+				flex-direction: column;
+			}
+
+			.hanng {
+				margin: 20px;
+			}
+
+			.page-title {
+				font-size: 18px;
+				font-weight: bold;
+				color: #333;
+				margin-bottom: 15px;
+				padding-left: 10px;
+				border-left: 4px solid #ff4400;
+				/* 淘宝橙色标识 */
+			}
+
+			.product-item:hover {
+				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+				transform: translateY(-3px);
+				/* 轻微上浮 */
+			}
+
+			.product-item:hover .product-img img {
+				transform: scale(1.05);
+				/* 图片轻微放大 */
+			}
+
+			.product-name {
+				font-size: 12px;
+				/* 缩小字体，适配窄宽度 */
+				color: #333;
+				line-height: 1.4;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				/* 最多显示2行 */
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+				margin-bottom: 6px;
+				flex: 1;
+			}
+
+			/* 商品价格（淘宝红色突出） */
+			.product-price {
+				font-size: 14px;
+				color: #ff4400;
+				font-weight: bold;
+				margin-bottom: 4px;
+			}
+
+			/* 销量/好评（灰色小字体） */
+			.product-meta {
+				font-size: 10px;
+				/* 缩小字体，适配空间 */
+				color: #999;
+			}
+
+			/* 响应式列间距调整 */
+			.layui-row {
+				margin-bottom: 10px;
+			}
+
+			.layui-col-space10 {
+				margin: 0 -5px;
+				/* 缩小列间距，适配5列 */
+			}
+
+			.layui-col-space10>[class*="layui-col-"] {
+				padding: 0 5px;
+				/* 缩小内边距，增加显示密度 */
+			}
+
+			/* 中屏（md）时，一行显示5列的自定义类 */
+			.layui-col-md2-4 {
+				
+				/* 100% ÷ 5 = 20% */
+				box-sizing: border-box;
+				float: left;
+				padding: 0 5px;
+				/* 与外层间距同步 */
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page-title">
+			<i class="layui-icon layui-icon-list"></i> 产品介绍
+		</div>
+
+		<div class="table-container">
+			<!-- 商品列表：Layui 栅格系统 + 自定义响应式类 -->
+			<div class="layui-row layui-col-space30 hang">
+				<!-- 商品1 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/餐具.jpg" alt="婴儿餐具">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿餐具 安全有保障</div>
+							<div class="product-price">¥38.00</div>
+							<div class="product-meta">月销2.3万+</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 商品2 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/零食.jpg" alt="婴儿零食">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿零食 6个月以上辅食</div>
+							<div class="product-price">¥49.90</div>
+							<div class="product-meta">月销5.6万+</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 商品3 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/衣服.jpg" alt="婴儿连体衣">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿连体衣 春秋款 纯棉透气</div>
+							<div class="product-price">¥59.90</div>
+							<div class="product-meta">月销1.8万+</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 商品4 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/小脸盆.jpg" alt="婴儿脸盆">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿脸盆 迷你精致</div>
+							<div class="product-price">¥45.00</div>
+							<div class="product-meta">月销3.1万+</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 商品5 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/浴巾.jpg" alt="婴儿浴巾">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿浴巾 纯棉不易生菌</div>
+							<div class="product-price">¥39.90</div>
+							<div class="product-meta">月销4.7万+</div>
+						</div>
+					</div>
+				</div>
+				<!-- 商品6 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/湿巾.jpg" alt="婴儿湿巾">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿湿巾 不刺激不伤肤</div>
+							<div class="product-price">¥39.90</div>
+							<div class="product-meta">月销4.7万+</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row layui-col-space30 hang">
+				<!-- 商品7 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/方巾.jpg" alt="婴儿方巾">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿方巾 易清洗</div>
+							<div class="product-price">¥39.00</div>
+							<div class="product-meta">月销8000+</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 商品8 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/大奶粉.jpg" alt="婴儿奶粉">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿奶粉 天然奶源</div>
+							<div class="product-price">¥68.00</div>
+							<div class="product-meta">月销2.9万+</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 商品9 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/奶瓶.jpg" alt="婴儿奶瓶">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿玻璃奶瓶 防胀气 宽口径</div>
+							<div class="product-price">¥79.00</div>
+							<div class="product-meta">月销1.5万+</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 商品10 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/洗澡盆.jpg" alt="婴儿洗澡盆">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿洗澡盆 硅胶 宽口径</div>
+							<div class="product-price">¥120.00</div>
+							<div class="product-meta">月销2.2万+</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 商品11 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/尿不湿.jpg" alt="婴儿尿不湿">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿纸尿裤 XL码 超薄透气</div>
+							<div class="product-price">¥56.00</div>
+							<div class="product-meta">月销3.5万+</div>
+						</div>
+					</div>
+				</div>
+				<!-- 商品12 -->
+				<div class="layui-col-lg2 layui-col-md2-4 layui-col-sm4 layui-col-xs6">
+					<div class="product-item">
+						<div class="product-img">
+							<img src="../../images/玩具.jpg" alt="婴儿玩具">
+						</div>
+						<div class="product-info">
+							<div class="product-name">婴儿玩具 可咬 0-1岁牙胶</div>
+							<div class="product-price">¥56.00</div>
+							<div class="product-meta">月销3.5万+</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<div class="page-title">
+			<i class="layui-icon layui-icon-list"></i> 产品分类管理
+		</div>
+
+		<div class="table-container">
+			<!-- 工具栏 -->
+			<script type="text/html" id="categoryToolbar">
+				<div class="layui-btn-container">
+					<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="addCategory">
+						<i class="layui-icon layui-icon-add-circle"></i> 添加分类
+					</button>
+					<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="batchDelete">
+						<i class="layui-icon layui-icon-delete"></i> 批量删除
+					</button>
+				</div>
+			</script>
+
+			<!-- 分类表格 -->
+			<table class="layui-table" id="categoryTable" lay-filter="categoryTable" lay-size="sm"></table>
+
+			<!-- 操作列模板 -->
+			<script type="text/html" id="categoryOperate">
+				<button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="addSub">
+					<i class="layui-icon layui-icon-add-1"></i> 添加子分类
+				</button>
+				<button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit">
+					<i class="layui-icon layui-icon-edit"></i> 编辑
+				</button>
+				<button class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">
+					<i class="layui-icon layui-icon-delete"></i> 删除
+				</button>
+			</script>
+
+			<!-- 状态模板 -->
+			<script type="text/html" id="categoryStatusTpl">
+				<span class="status-tag {{ d.status == 1 ? 'status-enabled' : 'status-disabled' }}">
+					{{ d.status == 1 ? '启用' : '禁用' }}
+				</span>
+			</script>
+		</div>
+
+		<!-- 添加/编辑分类弹窗 -->
+		<div id="categoryForm" style="display: none; padding: 20px;">
+			<form class="layui-form" lay-filter="categoryFormFilter">
+				<input type="hidden" name="categoryId">
+				<input type="hidden" name="parentId">
+
+				<div class="layui-form-item">
+					<label class="layui-form-label required-mark">上级分类</label>
+					<div class="layui-input-block">
+						<select name="parentId" lay-filter="parentId">
+							<option value="0">顶级分类</option>
+							<!-- 动态加载分类 -->
+						</select>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label required-mark">分类名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="categoryName" lay-verify="required" placeholder="请输入分类名称"
+							class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">分类描述</label>
+					<div class="layui-input-block">
+						<textarea name="description" placeholder="请输入分类描述" class="layui-textarea"></textarea>
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">排序号</label>
+					<div class="layui-input-block">
+						<input type="number" name="sortOrder" value="0" lay-verify="number" placeholder="数字越小越靠前"
+							class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">状态</label>
+					<div class="layui-input-block">
+						<input type="radio" name="status" value="1" title="启用" checked>
+						<input type="radio" name="status" value="0" title="禁用">
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+		<script>
+			layui.use(['table', 'form', 'layer', 'jquery'], function() {
+				var table = layui.table;
+				var form = layui.form;
+				var layer = layui.layer;
+				var $ = layui.jquery;
+
+				// 初始化分类表格
+				var categoryTable = table.render({
+					elem: '#categoryTable',
+					url: 'categoryData.json',
+					toolbar: '#categoryToolbar',
+					defaultToolbar: ['filter', 'exports'],
+					cols: [
+						[{
+								type: 'checkbox',
+								fixed: 'left'
+							},
+							{
+								field: 'categoryId',
+								title: '分类ID',
+								sort: true,
+								width: 160
+							},
+							{
+								field: 'categoryName',
+								title: '分类名称',
+								templet: '#categoryNameTpl',
+								minWidth: 160
+							},
+							{
+								field: 'parentName',
+								title: '上级分类',
+								width: 150
+							},
+							{
+								field: 'sortOrder',
+								title: '排序',
+								sort: true,
+								width: 150,
+								align: 'center'
+							},
+							{
+								field: 'status',
+								title: '状态',
+								templet: '#categoryStatusTpl',
+								width: 200,
+								align: 'center'
+							},
+							{
+								field: 'createTime',
+								title: '创建时间',
+								width: 200
+							},
+							{
+								fixed: 'right',
+								title: '操作',
+								toolbar: '#categoryOperate',
+								width: 250,
+								align: 'center'
+							}
+						]
+					],
+					page: false,
+					tree: {
+						iconIndex: 1, // 图标显示在第几列
+						idName: 'categoryId', // 自定义id字段的名称
+						pidName: 'parentId' // 自定义父id字段的名称
+					},
+					skin: 'line',
+					id: 'categoryTableId'
+				});
+
+				// 监听工具栏事件
+				table.on('toolbar(categoryTable)', function(obj) {
+					if (obj.event === 'addCategory') {
+						openCategoryForm();
+					} else if (obj.event === 'batchDelete') {
+						var checkStatus = table.checkStatus('categoryTableId');
+						var data = checkStatus.data;
+						if (data.length === 0) {
+							layer.msg('请选择需要删除的分类', {
+								icon: 3
+							});
+							return;
+						}
+						layer.confirm('确定要删除选中的 ' + data.length + ' 个分类吗？', {
+							icon: 3
+						}, function(index) {
+							layer.load(1);
+							setTimeout(function() {
+								layer.closeAll('loading');
+								layer.msg('删除成功', {
+									icon: 1
+								});
+								table.reload('categoryTableId');
+							}, 800);
+							layer.close(index);
+						});
+					}
+				});
+
+				// 监听行操作事件
+				table.on('tool(categoryTable)', function(obj) {
+					var data = obj.data;
+					if (obj.event === 'addSub') {
+						openCategoryForm(data.categoryId, data.categoryName);
+					} else if (obj.event === 'edit') {
+						editCategory(data);
+					} else if (obj.event === 'delete') {
+						layer.confirm('确定要删除分类【' + data.categoryName + '】吗？', {
+							icon: 3
+						}, function(index) {
+							layer.load(1);
+							setTimeout(function() {
+								obj.del();
+								layer.closeAll('loading');
+								layer.msg('删除成功', {
+									icon: 1
+								});
+							}, 800);
+							layer.close(index);
+						});
+					}
+				});
+
+				// 打开添加分类表单
+				function openCategoryForm(parentId = 0, parentName = '顶级分类') {
+					layer.open({
+						title: parentId > 0 ? '添加子分类 - 父分类：' + parentName : '添加分类',
+						type: 1,
+						area: ['500px', '450px'],
+						content: $('#categoryForm'),
+						success: function() {
+							// 重置表单
+							form.val('categoryFormFilter', {
+								'categoryId': '',
+								'parentId': parentId,
+								'categoryName': '',
+								'description': '',
+								'sortOrder': 0,
+								'status': 1
+							});
+							// 加载分类列表
+							loadCategoryList(parentId);
+						},
+						btn: ['保存', '取消'],
+						yes: function(index) {
+							// 验证表单
+							form.validate();
+							if (!form.verify()) return;
+
+							var formData = form.val('categoryFormFilter');
+							layer.load(1);
+							setTimeout(function() {
+								layer.closeAll('loading');
+								layer.close(index);
+								layer.msg('保存成功', {
+									icon: 1
+								});
+								table.reload('categoryTableId');
+							}, 800);
+						},
+						btn2: function(index) {
+							layer.close(index);
+						}
+					});
+				}
+
+				// 编辑分类
+				function editCategory(data) {
+					layer.open({
+						title: '编辑分类 - ' + data.categoryName,
+						type: 1,
+						area: ['500px', '450px'],
+						content: $('#categoryForm'),
+						success: function() {
+							// 填充表单数据
+							form.val('categoryFormFilter', {
+								'categoryId': data.categoryId,
+								'parentId': data.parentId,
+								'categoryName': data.categoryName,
+								'description': data.description || '',
+								'sortOrder': data.sortOrder || 0,
+								'status': data.status
+							});
+							// 加载分类列表
+							loadCategoryList(data.parentId);
+						},
+						btn: ['保存', '取消'],
+						yes: function(index) {
+							// 验证表单
+							form.validate();
+							if (!form.verify()) return;
+
+							var formData = form.val('categoryFormFilter');
+							layer.load(1);
+							setTimeout(function() {
+								layer.closeAll('loading');
+								layer.close(index);
+								layer.msg('修改成功', {
+									icon: 1
+								});
+								table.reload('categoryTableId');
+							}, 800);
+						}
+					});
+				}
+
+				// 加载分类列表（用于下拉选择）
+				function loadCategoryList(selectedId) {
+					// 模拟加载分类数据
+					$.getJSON('categoryData.json', function(res) {
+						if (res.code === 0) {
+							var categories = res.data;
+							var html = '<option value="0">顶级分类</option>';
+
+							// 递归生成分类选项
+							function buildOptions(categories, parentId = 0, level = 0) {
+								var options = '';
+								categories.forEach(function(item) {
+									if (item.parentId === parentId) {
+										var prefix = '';
+										for (var i = 0; i < level; i++) {
+											prefix += '├─';
+										}
+										options += '<option value="' + item.categoryId + '">' + prefix +
+											item.categoryName + '</option>';
+										// 递归处理子分类
+										options += buildOptions(categories, item.categoryId, level + 1);
+									}
+								});
+								return options;
+							}
+
+							html += buildOptions(categories);
+							$('select[name="parentId"]').html(html);
+							// 设置选中值
+							if (selectedId) {
+								$('select[name="parentId"]').val(selectedId);
+							}
+							form.render('select');
+						}
+					});
+				}
+			});
+		</script>
+	</body>
+</html>

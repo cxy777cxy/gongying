@@ -1,0 +1,117 @@
+{
+  "code": 0,
+  "msg": "success",
+  "count": 10,
+  "data": [
+    {
+      "id": 1001,
+      "name": "王小明",
+      "phone": "13800138000",
+      "level": 3,
+      "levelName": "黄金会员",
+      "points": 580,
+      "totalEarned": 780,
+      "totalUsed": 200,
+      "lastUpdate": "2024-05-10 10:30:00"
+    },
+    {
+      "id": 1002,
+      "name": "李丽",
+      "phone": "13912345678",
+      "level": 2,
+      "levelName": "白银会员",
+      "points": 230,
+      "totalEarned": 350,
+      "totalUsed": 120,
+      "lastUpdate": "2024-05-10 11:05:15"
+    },
+    {
+      "id": 1003,
+      "name": "张伟",
+      "phone": "15899998888",
+      "level": 1,
+      "levelName": "青铜会员",
+      "points": 150,
+      "totalEarned": 400,
+      "totalUsed": 250,
+      "lastUpdate": "2024-05-09 14:45:30"
+    },
+    {
+      "id": 1004,
+      "name": "赵敏",
+      "phone": "13011112222",
+      "level": 4,
+      "levelName": "铂金会员",
+      "points": 1200,
+      "totalEarned": 1500,
+      "totalUsed": 300,
+      "lastUpdate": "2024-05-09 09:00:00"
+    },
+    {
+      "id": 1005,
+      "name": "刘强",
+      "phone": "13333334444",
+      "level": 3,
+      "levelName": "黄金会员",
+      "points": 650,
+      "totalEarned": 900,
+      "totalUsed": 250,
+      "lastUpdate": "2024-05-08 15:00:00"
+    },
+    {
+      "id": 1006,
+      "name": "陈红",
+      "phone": "13666667777",
+      "level": 2,
+      "levelName": "白银会员",
+      "points": 300,
+      "totalEarned": 450,
+      "totalUsed": 150,
+      "lastUpdate": "2024-05-08 10:00:00"
+    },
+    {
+      "id": 1007,
+      "name": "杨涛",
+      "phone": "13188889999",
+      "level": 1,
+      "levelName": "青铜会员",
+      "points": 100,
+      "totalEarned": 200,
+      "totalUsed": 100,
+      "lastUpdate": "2024-05-07 16:20:00"
+    },
+    {
+      "id": 1008,
+      "name": "吴丽娜",
+      "phone": "13700001111",
+      "level": 5,
+      "levelName": "钻石会员",
+      "points": 3500,
+      "totalEarned": 4000,
+      "totalUsed": 500,
+      "lastUpdate": "2024-05-07 11:00:00"
+    },
+    {
+      "id": 1009,
+      "name": "徐海",
+      "phone": "13222223333",
+      "level": 3,
+      "levelName": "黄金会员",
+      "points": 720,
+      "totalEarned": 1000,
+      "totalUsed": 280,
+      "lastUpdate": "2024-05-06 13:00:00"
+    },
+    {
+      "id": 1010,
+      "name": "孙燕",
+      "phone": "13544445555",
+      "level": 2,
+      "levelName": "白银会员",
+      "points": 280,
+      "totalEarned": 400,
+      "totalUsed": 120,
+      "lastUpdate": "2024-05-06 10:00:00"
+    }
+  ]
+}

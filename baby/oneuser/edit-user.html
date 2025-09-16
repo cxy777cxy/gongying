@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>修改用户信息 - 婴幼儿产品销售管理系统</title>
+    <!-- Layui 样式引用 -->
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/layuimini.css" media="all">
+    <style>
+        body {
+            background-color: #f9f5f7;
+            padding: 20px;
+        }
+        .page-title {
+            color: #ff6b9a;
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .form-container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(255,107,154,0.1);
+        }
+        .layui-btn-primary {
+            border-color: #ffccd5;
+        }
+        .layui-btn-normal {
+            background-color: #ff6b9a;
+            border-color: #ff6b9a;
+        }
+        .layui-btn-normal:hover {
+            background-color: #ff4988;
+        }
+        .tips {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面标题 -->
+    <div class="page-title">
+        <i class="layui-icon layui-icon-user-edit"></i> 修改用户信息
+    </div>
+
+    <!-- 表单容器 -->
+    <div class="form-container">
+        <form class="layui-form" lay-filter="editUserForm">
+            <!-- 隐藏用户ID（用于后端定位用户） -->
+            <input type="hidden" name="userId" value="1001">
+
+            <!-- 用户名（只读，不可修改） -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="username" value="sales001" readonly 
+                           class="layui-input layui-disabled">
+                </div>
+            </div>
+
+            <!-- 手机号 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">手机号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="phone" value="13800138000" lay-verify="required|phone" 
+                           placeholder="请输入11位手机号" autocomplete="off" 
+                           class="layui-input">
+                </div>
+            </div>
+
+            <!-- 角色选择 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">用户角色</label>
+                <div class="layui-input-block">
+                    <select name="role" lay-verify="required" lay-search>
+                        <option value="">请选择角色</option>
+                        <option value="admin">系统管理员</option>
+                        <option value="sales" selected>销售人员</option>
+                        <option value="stock">库存管理员</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 用户状态 -->
+            <div class="layui-form-item">
+                <label class="layui-form-label required">用户状态</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="status" value="1" title="启用" checked>
+                    <input type="radio" name="status" value="0" title="禁用">
+                </div>
+            </div>
+
+            <!-- 密码（非必填：不填则不更新） -->
+            <div class="layui-form-item">
+                <label class="layui-form-label">修改密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" lay-verify="password" 
+                           placeholder="不填则保持原密码（6-12位，含字母+数字）" autocomplete="off" 
+                           class="layui-input" lay-affix="eye">
+                    <p class="tips">提示：仅需修改密码时填写</p>
+                </div>
+            </div>
+
+            <!-- 确认密码（与密码联动，非必填） -->
+            <div class="layui-form-item">
+                <label class="layui-form-label">确认密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="confirmPwd" lay-verify="confirmPwd" 
+                           placeholder="请再次输入新密码" autocomplete="off" 
+                           class="layui-input" lay-affix="eye">
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" lay-submit>提交更新</button>
+                    <button type="button" class="layui-btn layui-btn-primary" onclick="window.location.href='user-list.html'">返回用户列表</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Layui JS 引用 -->
+    <script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+    <script>
+        layui.use(['form', 'layer'], function() {
+            var form = layui.form;
+            var layer = layui.layer;
+
+            // 页面加载时：模拟从后端获取用户信息（实际项目用 $.ajax 请求）
+            window.onload = function() {
+                // 示例：若有真实用户ID，可通过 URL 参数获取（如 ?userId=1001）
+                var userId = getUrlParam('userId') || '1001';
+                // 这里可根据 userId 请求用户数据并填充表单
+                console.log('当前修改的用户ID：', userId);
+            };
+
+            // 工具函数：获取 URL 参数
+            function getUrlParam(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                return r ? decodeURIComponent(r[2]) : null;
+            }
+
+            // 自定义验证规则
+            form.verify({
+                // 密码：6-12位（含字母+数字）
+                password: function(value) {
+                    if (value && !/^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,12}$/.test(value)) {
+                        return '密码需6-12位，且包含字母和数字';
+                    }
+                },
+                // 确认密码：仅当密码填写时校验
+                confirmPwd: function(value) {
+                    var pwd = document.getElementsByName('password')[0].value;
+                    if (pwd && value !== pwd) {
+                        return '两次密码输入不一致';
+                    }
+                }
+            });
+
+            // 表单提交事件
+            form.on('submit(editUserForm)', function(data) {
+                // 模拟接口请求
+                layer.load(1);
+                setTimeout(function() {
+                    layer.closeAll('loading');
+                    layer.msg('用户信息更新成功！', {icon: 1}, function() {
+                        window.location.href='user-list.html';
+                    });
+                }, 1000);
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>
