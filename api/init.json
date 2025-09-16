@@ -11,6 +11,7 @@
   },
   "menuInfo": [
     {
+
 	  
       "title": "常规管理",
       "icon": "fa fa-address-book",
@@ -35,7 +36,7 @@
             "icon": "fa fa-plus-square-o",
             "target": "_self"
           }, {
-            "title": "查询用户",
+            "title": "修改用户",
             "href": "baby/oneuser/edit-user.html",
             "icon": "fa fa-search",
             "target": "_self"
